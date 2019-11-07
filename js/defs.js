@@ -73,6 +73,10 @@ var SQUARES = {
 
 var BOOL = { FALSE: 0, TRUE: 1 };
 
+var MAXGAMEMOVES = 2048;
+var MAXPOSITIONMOVES = 256;
+var MAXDEPH = 81;
+
 var FilesBrd = new Array(BRD_SQ_NUM);
 var RanksBrd = new Array(BRD_SQ_NUM);
 
@@ -359,3 +363,25 @@ var PieceKing = [
   BOOL.FALSE,
   BOOL.TRUE
 ];
+
+var PieceKeys = new Array(18 * 143);
+var SideKey;
+
+var Sq142ToSq81 = new Array(BRD_SQ_NUM);
+var Sq81ToSq142 = new Array(81);
+
+function RAND_32() {
+  return (
+    (Math.floor(Math.random() * 255 + 1) << 23) |
+    (Math.floor(Math.random() * 255 + 1) << 16) |
+    (Math.floor(Math.random() * 255 + 1) << 8) |
+    Math.floor(Math.random() * 255 + 1)
+  );
+}
+
+function SQ81(sq142) {
+  return Sq142ToSq81[sq142];
+}
+function SQ142(sq81) {
+  return Sq81ToSq142[sq81];
+}
