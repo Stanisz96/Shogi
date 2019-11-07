@@ -1,13 +1,15 @@
 $(function() {
   init();
   console.log("Main Init Called");
-  tableCreate("normal");
+  ParseFen(START_FEN);
+  PrintBoard();
+  tableCreate("pieces");
 
-  tableCreate("files");
+  // tableCreate("files");
 
-  tableCreate("ranks");
+  // tableCreate("ranks");
 
-  tableCreate("142To81");
+  // tableCreate("142To81");
 
   // var piece1 = RAND_32();
   // var piece2 = RAND_32();
@@ -62,9 +64,6 @@ function InitSq142ToSq81() {
       sq81++;
     }
   }
-
-  console.log(JSON.stringify(Sq142ToSq81));
-  console.log(JSON.stringify(Sq81ToSq142));
 }
 
 function InitFilesRanksBrd() {
@@ -103,40 +102,3 @@ function InitHashKeys() {
 
 
 */
-function tableCreate(mode) {
-  var files = 11;
-  var ranks = 13;
-  var body = document.getElementsByTagName("body")[0];
-  var tbl = document.createElement("table");
-  tbl.style.width = "500px";
-  tbl.style.margin = "10px 10px 10px 0px";
-  tbl.style.height = "500px";
-  tbl.style.fontWeight = "bold";
-  tbl.style.textAlign = "center";
-  tbl.setAttribute("border", "1");
-  var tbdy = document.createElement("tbody");
-  for (var i = 0; i < 13; i++) {
-    var tr = document.createElement("tr");
-    for (var j = 0; j < 11; j++) {
-      var td = document.createElement("td");
-      if (j > 0 && j < 10 && i > 1 && i < 11) {
-        td.style.backgroundColor = "rgb(122, 152, 235)";
-      } else {
-        td.style.backgroundColor = "rgb(169, 230, 245)";
-      }
-      if (mode == "normal") {
-        td.appendChild(document.createTextNode(i * files + j));
-      } else if (mode == "files") {
-        td.appendChild(document.createTextNode(FilesBrd[i * files + j]));
-      } else if (mode == "ranks") {
-        td.appendChild(document.createTextNode(RanksBrd[i * files + j]));
-      } else if (mode == "142To81") {
-        td.appendChild(document.createTextNode(Sq142ToSq81[i * files + j]));
-      }
-      tr.appendChild(td);
-    }
-    tbdy.appendChild(tr);
-  }
-  tbl.appendChild(tbdy);
-  body.appendChild(tbl);
-}

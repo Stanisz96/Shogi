@@ -80,6 +80,13 @@ var MAXDEPH = 81;
 var FilesBrd = new Array(BRD_SQ_NUM);
 var RanksBrd = new Array(BRD_SQ_NUM);
 
+var START_FEN = "lnsgkgsnl/1b5r1/ppppppppp/9/9/9/PPPPPPPPP/1R5B1/LNSGKGSNL w";
+
+var PieceChar = ".PLNSGBRKplnsgbrk";
+var SideChar = "wb-";
+var RankChar = "123456789";
+var FileChar = "abcdefghi";
+
 // File and Rank to Square
 function FR2SQ(file, rank) {
   return 23 + file + rank * 11;
@@ -385,3 +392,5 @@ function SQ81(sq142) {
 function SQ142(sq81) {
   return Sq81ToSq142[sq81];
 }
+
+var mainTable;
