@@ -4,34 +4,7 @@ $(function() {
   ParseFen(START_FEN);
   PrintBoard();
   tableCreate("pieces");
-
-  // tableCreate("files");
-
-  // tableCreate("ranks");
-
-  // tableCreate("142To81");
-
-  // var piece1 = RAND_32();
-  // var piece2 = RAND_32();
-  // var piece3 = RAND_32();
-  // var piece4 = RAND_32();
-
-  // var key = 0;
-  // key ^= piece1;
-  // console.log("key1: " + key.toString(16));
-  // key ^= piece2;
-  // console.log("key2: " + key.toString(16));
-  // key ^= piece3;
-  // console.log("key3: " + key.toString(16));
-  // key ^= piece4;
-  // console.log("key4: " + key.toString(16));
-  // key ^= piece1;
-  // console.log("key1out: " + key.toString(16));
-  // key = 0;
-  // key ^= piece2;
-  // key ^= piece3;
-  // key ^= piece4;
-  // console.log("build o piece1: " + key.toString(16));
+  tableCreate("normal");
 });
 
 function init() {

@@ -80,7 +80,7 @@ var MAXDEPH = 81;
 var FilesBrd = new Array(BRD_SQ_NUM);
 var RanksBrd = new Array(BRD_SQ_NUM);
 
-var START_FEN = "lnsgkgsnl/1b5r1/ppppppppp/9/9/9/PPPPPPPPP/1R5B1/LNSGKGSNL w";
+var START_FEN = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL w";
 
 var PieceChar = ".PLNSGBRKplnsgbrk";
 var SideChar = "wb-";
@@ -371,11 +371,23 @@ var PieceKing = [
   BOOL.TRUE
 ];
 
+var KingDir = [-1, 10, 11, 12, 1, -10, -11, -12];
+var RookDir = [-1, 11, 1, -11];
+var BishopDir = [10, 12, -10, -12];
+var GoldDir = [-1, 10, 11, 12, 1, -11];
+var SilverDir = [10, 11, 12, -10, -12];
+var KnightDir = [21, 23];
+var LanceDir = [11];
+var PawnDir = [11];
+
 var PieceKeys = new Array(18 * 143);
 var SideKey;
 
 var Sq142ToSq81 = new Array(BRD_SQ_NUM);
 var Sq81ToSq142 = new Array(81);
+
+// Table board
+var mainTable;
 
 function RAND_32() {
   return (
@@ -393,4 +405,8 @@ function SQ142(sq81) {
   return Sq81ToSq142[sq81];
 }
 
-var mainTable;
+function PIECEINDEX(piece, pieceNum) {
+  return piece * 10 + pieceNum;
+}
+
+var random = "";
