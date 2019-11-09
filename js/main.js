@@ -5,6 +5,8 @@ $(function() {
   PrintBoard();
   tableCreate("pieces");
   tableCreate("normal");
+  //GenerateMoves();
+  //PrintMoveList();
 });
 
 function init() {

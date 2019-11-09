@@ -380,6 +380,43 @@ var KnightDir = [21, 23];
 var LanceDir = [11];
 var PawnDir = [11];
 
+var DirNum = [0, 1, 1, 2, 5, 6, 4, 4, 8, 1, 1, 2, 5, 6, 4, 4, 8];
+var PieceDir = [
+  0,
+  PawnDir,
+  LanceDir,
+  KnightDir,
+  SilverDir,
+  GoldDir,
+  BishopDir,
+  RookDir,
+  KingDir,
+  PawnDir,
+  LanceDir,
+  KnightDir,
+  SilverDir,
+  GoldDir,
+  BishopDir,
+  RookDir,
+  KingDir
+];
+var LoopNonSlidePiece = [
+  PIECES.gN,
+  PIECES.gS,
+  PIECES.gG,
+  PIECES.gK,
+  0,
+  PIECES.oN,
+  PIECES.oS,
+  PIECES.oG,
+  PIECES.oK,
+  0
+];
+var LoopNonSlideIndex = [0, 5];
+
+var LoopSlidePiece = [PIECES.gL, PIECES.gR, PIECES.gB, 0, PIECES.oL, PIECES.oR, PIECES.oB, 0];
+var LoopSlideIndex = [0, 4];
+
 var PieceKeys = new Array(18 * 143);
 var SideKey;
 
@@ -410,3 +447,35 @@ function PIECEINDEX(piece, pieceNum) {
 }
 
 var random = "";
+
+//0000 0000 0000 0000 0000 0111 1111 7bit for fromsq 81
+//0000 0000 0000 0011 1111 1000 0000 7bit for tosq 81
+//0000 0000 0111 1100 0000 0000 0000 5bit for captured
+//0000 0000 1000 0000 0000 0000 0000 1bit if can be promoted?? awakening
+//0001 1111 0000 0000 0000 0000 0000 5bit promoted
+//
+// 0000 0000 0000 0000 0000 0000
+
+function FROMSQ(m) {
+  return m & 0x7f;
+}
+function TOSQ(m) {
+  return (m >> 7) & 0x7f;
+}
+function CAPTURED(m) {
+  return (m >> 14) & 0x1f;
+}
+function PROMOTED(m) {
+  return (m >> 20) & 0xf;
+}
+
+var MFLAG_AWA = 0x80000;
+var MFLAG_CAP = 0xfc000;
+var MFLAG_PROM = 0xf80000;
+
+var NOMOVE = 0;
+
+function SQOFFBOARD(sq) {
+  if (FilesBrd[sq] == SQUARES.OFFBOARD) return BOOL.TRUE;
+  return BOOL.FALSE;
+}
