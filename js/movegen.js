@@ -42,10 +42,7 @@ function GenerateMoves() {
       if (SQOFFBOARD(sq + 11) == BOOL.FALSE && GameBoard.pieces[sq + 11] == PIECES.EMPTY) {
         AddQuietMove(MOVE(sq, sq + 11, PIECES.EMPTY, PIECES.EMPTY, 0));
       }
-      if (
-        SQOFFBOARD(sq + 11) == BOOL.FALSE &&
-        PiecePlayer[GameBoard.pieces[sq + 11]] == RANKED_PLAYER.HIGHER
-      ) {
+      if (SQOFFBOARD(sq + 11) == BOOL.FALSE && PiecePlayer[GameBoard.pieces[sq + 11]] == RANKED_PLAYER.HIGHER) {
         AddCaptureMove(MOVE(sq, sq + 11, GameBoard.pieces[sq + 11], PIECES.EMPTY, 0));
       }
     }
@@ -57,10 +54,7 @@ function GenerateMoves() {
       if (SQOFFBOARD(sq - 11) == BOOL.FALSE && GameBoard.pieces[sq - 11] == PIECES.EMPTY) {
         AddQuietMove(MOVE(sq, sq - 11, PIECES.EMPTY, PIECES.EMPTY, 0));
       }
-      if (
-        SQOFFBOARD(sq - 11) == BOOL.FALSE &&
-        PiecePlayer[GameBoard.pieces[sq - 11]] == RANKED_PLAYER.LOWER
-      ) {
+      if (SQOFFBOARD(sq - 11) == BOOL.FALSE && PiecePlayer[GameBoard.pieces[sq - 11]] == RANKED_PLAYER.LOWER) {
         AddCaptureMove(MOVE(sq, sq - 11, GameBoard.pieces[sq - 11], PIECES.EMPTY, 0));
       }
     }

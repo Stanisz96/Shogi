@@ -18,23 +18,25 @@ function PrtMove(move) {
 function PrintMoveList() {
   var index, move;
   console.log("MoveList: ");
-  for (
-    index = GameBoard.moveListStart[GameBoard.ply];
-    index < GameBoard.moveListStart[GameBoard.ply + 1];
-    ++index
-  ) {
+  for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
     move = GameBoard.moveList[index];
     console.log(PrtMove(move));
   }
 }
 
 function PrintConsoleBoard() {
-  var line = "\n\n\n\n\n\n\n\n\n";
+  var line = "\n\n\n\n";
   for (var i = 1; i < 14; i++) {
     for (var j = 1; j < 12; j++) {
-      GameBoard.pieces[142 - i * 11 + j] == 121
-        ? (line += "* ")
-        : (line += GameBoard.pieces[142 - i * 11 + j] + " ");
+      if (GameBoard.pieces[142 - i * 11 + j] == 121) {
+        line += "*  ";
+      } else {
+        if (GameBoard.pieces[142 - i * 11 + j] <= 9) {
+          line += GameBoard.pieces[142 - i * 11 + j] + "  ";
+        } else {
+          line += GameBoard.pieces[142 - i * 11 + j] + " ";
+        }
+      }
     }
     line += "\n";
   }

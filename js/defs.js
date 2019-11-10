@@ -80,10 +80,10 @@ var MAXDEPH = 81;
 var FilesBrd = new Array(BRD_SQ_NUM);
 var RanksBrd = new Array(BRD_SQ_NUM);
 
-var START_FEN = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL w";
+var START_FEN = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL g";
 
 var PieceChar = ".PLNSGBRKplnsgbrk";
-var SideChar = "wb-";
+var SideChar = "go-";
 var RankChar = "123456789";
 var FileChar = "abcdefghi";
 
@@ -155,45 +155,9 @@ var PieceMin = [
   BOOL.FALSE
 ];
 // [None, pawn, lance, knight, silver, gold, bishop, rook, king]
-var PieceVal = [
-  0,
-  100,
-  430,
-  450,
-  640,
-  690,
-  890,
-  1040,
-  50000,
-  100,
-  430,
-  450,
-  640,
-  690,
-  890,
-  1040,
-  50000
-];
+var PieceVal = [0, 100, 430, 450, 640, 690, 890, 1040, 50000, 100, 430, 450, 640, 690, 890, 1040, 50000];
 // [None, pawn, lance, knight, silver, gold, bishop, rook, king]
-var PieceInHandVal = [
-  0,
-  115,
-  480,
-  510,
-  720,
-  780,
-  1110,
-  1270,
-  50000,
-  115,
-  480,
-  510,
-  720,
-  780,
-  1110,
-  1270,
-  50000
-];
+var PieceInHandVal = [0, 115, 480, 510, 720, 780, 1110, 1270, 50000, 115, 480, 510, 720, 780, 1110, 1270, 50000];
 
 // Affiliation of pawns to the player
 var PiecePlayer = [
@@ -400,24 +364,13 @@ var PieceDir = [
   RookDir,
   KingDir
 ];
-var LoopNonSlidePiece = [
-  PIECES.gN,
-  PIECES.gS,
-  PIECES.gG,
-  PIECES.gK,
-  0,
-  PIECES.oN,
-  PIECES.oS,
-  PIECES.oG,
-  PIECES.oK,
-  0
-];
+var LoopNonSlidePiece = [PIECES.gN, PIECES.gS, PIECES.gG, PIECES.gK, 0, PIECES.oN, PIECES.oS, PIECES.oG, PIECES.oK, 0];
 var LoopNonSlideIndex = [0, 5];
 
 var LoopSlidePiece = [PIECES.gL, PIECES.gR, PIECES.gB, 0, PIECES.oL, PIECES.oR, PIECES.oB, 0];
 var LoopSlideIndex = [0, 4];
 
-var PieceKeys = new Array(18 * 143);
+var PieceKeys = new Array(18 * 142);
 var SideKey;
 
 var Sq142ToSq81 = new Array(BRD_SQ_NUM);
@@ -447,6 +400,8 @@ function PIECEINDEX(piece, pieceNum) {
 }
 
 var random = "";
+
+var Kings = [PIECES.gK, PIECES.oK];
 
 //0000 0000 0000 0000 0000 0111 1111 7bit for fromsq 81
 //0000 0000 0000 0011 1111 1000 0000 7bit for tosq 81
@@ -478,4 +433,12 @@ var NOMOVE = 0;
 function SQOFFBOARD(sq) {
   if (FilesBrd[sq] == SQUARES.OFFBOARD) return BOOL.TRUE;
   return BOOL.FALSE;
+}
+
+function HASH_PIECE(piece, sq) {
+  GameBoard.posKey ^= PieceKeys[piece * 142 + sq];
+}
+
+function HASH_SIDE() {
+  GameBoard.posKey ^= SideKey;
 }

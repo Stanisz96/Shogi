@@ -9,6 +9,7 @@ GameBoard.side = RANKED_PLAYER.LOWER;
 //GameBoard.fiftyMove = 0; // for chess -> if 50 moves done without  == draw (shogi dont have this)
 GameBoard.hisPlay = 0; // count every move which has been made from the start
 GameBoard.ply = 0; // nr half moves made in search tree
+GameBoard.history = [];
 //GameBoard.castePerm = 0; // for chess, in shogi there is no castling
 GameBoard.material = new Array(2); // Higher and lower player material of pieces
 GameBoard.pieceNum = new Array(17); // Number of pieces we have
@@ -18,6 +19,54 @@ GameBoard.posKey = 0; // unice number represents position on the board
 GameBoard.moveList = new Array(MAXDEPH * MAXPOSITIONMOVES);
 GameBoard.moveScore = new Array(MAXDEPH * MAXPOSITIONMOVES);
 GameBoard.moveListStart = new Array(MAXDEPH);
+
+function CheckBoard() {
+  var t_pieceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var t_material = [0, 0];
+  var sq81, t_piece, t_piece_num, sq142, side, piece_count;
+
+  for (t_piece = PIECES.gP; t_piece <= PIECES.oK; ++t_piece) {
+    for (t_piece_num = 0; t_piece_num < GameBoard.pieceNum[t_piece]; ++t_piece_num) {
+      sq142 = GameBoard.pList[PIECEINDEX(t_piece, t_piece_num)];
+      if (GameBoard.pieces[sq142] != t_piece) {
+        console.error("error piece list");
+        return BOOL.FALSE;
+      }
+    }
+  }
+
+  for (sq81 = 0; sq81 < 81; ++sq81) {
+    sq142 = SQ142(sq81);
+    t_piece = GameBoard.pieces[sq142];
+    t_pieceNum[t_piece]++;
+    t_material[PiecePlayer[t_piece]] += PieceVal[t_piece];
+  }
+  for (t_piece = PIECES.gP; t_piece <= PIECES.oK; ++t_piece) {
+    if (t_pieceNum[t_piece] != GameBoard.pieceNum[t_piece]) {
+      console.error("error t_pieceNum");
+      return BOOL.FALSE;
+    }
+  }
+
+  if (
+    t_material[RANKED_PLAYER.LOWER] != GameBoard.material[RANKED_PLAYER.LOWER] ||
+    t_material[RANKED_PLAYER.HIGHER] != GameBoard.material[RANKED_PLAYER.HIGHER]
+  ) {
+    console.error("error t_material");
+    return BOOL.FALSE;
+  }
+  if (GameBoard.side != RANKED_PLAYER.LOWER && GameBoard.side != RANKED_PLAYER.HIGHER) {
+    console.error("error GameBoard.side");
+    return BOOL.FALSE;
+  }
+  if (GeneratePosKey() != GameBoard.posKey) {
+    console.error("error Generate: " + GeneratePosKey().toString(16));
+    console.error("error GameBoard.posKey: " + GameBoard.posKey.toString(16));
+    return BOOL.FALSE;
+  }
+
+  return BOOL.TRUE;
+}
 
 function PrintBoard() {
   var sq, file, rank, piece;
@@ -145,9 +194,7 @@ function PrtPieceLists() {
   var piece, pieceNum;
   for (piece = PIECES.gP; piece <= PIECES.oK; piece++) {
     for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
-      console.log(
-        "Piece " + PieceChar[piece] + " on " + PrtSq(GameBoard.pList[PIECEINDEX(piece, pieceNum)])
-      );
+      console.log("Piece " + PieceChar[piece] + " on " + PrtSq(GameBoard.pList[PIECEINDEX(piece, pieceNum)]));
     }
   }
 }
@@ -297,10 +344,11 @@ function ParseFen(fen) {
     fenCount++;
   }
 
-  GameBoard.side = fen[fenCount] == "w" ? RANKED_PLAYER.LOWER : RANKED_PLAYER.HIGHER;
+  GameBoard.side = fen[fenCount] == "g" ? RANKED_PLAYER.LOWER : RANKED_PLAYER.HIGHER;
   fenCount += 2;
 
   GameBoard.posKey = GeneratePosKey();
+  console.log("Fen read: " + GameBoard.posKey.toString(16));
   UpdateListMaterial();
 
   PrintSqAttaced();

@@ -5,15 +5,38 @@ $(function() {
   PrintBoard();
   tableCreate("pieces");
   tableCreate("normal");
-  //GenerateMoves();
+  GenerateMoves();
   //PrintMoveList();
+  // PrtPieceLists();
+  CheckBoard();
+  MakeMove(GameBoard.moveList[0]);
+  PrintBoard();
+  CheckBoard();
+  console.log(GameBoard.history);
+  TakeMove();
+  PrintBoard();
+  CheckBoard();
+  tableUpdate(mainTable, "pieces");
+
+  console.log(GameBoard.history);
 });
+
+function InitBoardVars() {
+  var index = 0;
+  for (index = 0; index < MAXGAMEMOVES; ++index) {
+    GameBoard.history.push({
+      move: NOMOVE,
+      posKey: 0
+    });
+  }
+}
 
 function init() {
   console.log("init() called");
   InitFilesRanksBrd();
   InitHashKeys();
   InitSq142ToSq81();
+  InitBoardVars();
 }
 
 function InitSq142ToSq81() {
@@ -66,7 +89,7 @@ function InitHashKeys() {
     PieceKeys[index] = RAND_32();
   }
 
-  SideKey = RAND_32;
+  SideKey = RAND_32();
 }
 
 /*

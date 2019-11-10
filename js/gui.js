@@ -6,4 +6,5 @@ $("#SetFen").click(function() {
   PrintConsoleBoard();
   GenerateMoves();
   PrintMoveList();
+  CheckBoard();
 });
