@@ -32,10 +32,10 @@ function MovePiece(from, to) {
   var piece = GameBoard.pieces[from];
   HASH_PIECE(piece, from);
   GameBoard.pieces[from] = PIECES.EMPTY;
-  console.log("hashPieceFrom: " + GameBoard.posKey.toString(16));
+  //console.log("hashPieceFrom: " + GameBoard.posKey.toString(16));
   HASH_PIECE(piece, to);
   GameBoard.pieces[to] = piece;
-  console.log("hashPieceTo: " + GameBoard.posKey.toString(16));
+  //console.log("hashPieceTo: " + GameBoard.posKey.toString(16));
   for (index = 0; index < GameBoard.pieceNum[piece]; ++index) {
     if (GameBoard.pList[PIECEINDEX(piece, index)] == from) {
       GameBoard.pList[PIECEINDEX(piece, index)] = to;
@@ -49,7 +49,7 @@ function MakeMove(move) {
   var to = TOSQ(move);
   var side = GameBoard.side;
   var captured = CAPTURED(move);
-  console.log("Before move: " + GameBoard.posKey.toString(16));
+  //console.log("Before move: " + GameBoard.posKey.toString(16));
   GameBoard.history[GameBoard.hisPlay].posKey = GameBoard.posKey;
   GameBoard.history[GameBoard.hisPlay].move = move;
   if (captured != PIECES.EMPTY) {
@@ -64,9 +64,10 @@ function MakeMove(move) {
 
   GameBoard.side ^= 1;
   HASH_SIDE();
-  console.log("hashSide: " + GameBoard.posKey.toString(16));
+  //console.log("hashSide: " + GameBoard.posKey.toString(16));
   // if there is a check
   if (SqAttacked(GameBoard.pList[PIECEINDEX(Kings[side], 0)], GameBoard.side)) {
+    TakeMove();
     return BOOL.FALSE;
   }
   return BOOL.TRUE;

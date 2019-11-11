@@ -379,12 +379,12 @@ function SqAttacked(sq, side) {
     //PAWN
     if (side == RANKED_PLAYER.LOWER) {
       if (GameBoard.pieces[sq - 11] == PIECES.gP) {
-        //console.log("pawn1");
+        //console.log("pawng");
         return BOOL.TRUE;
       }
     } else {
       if (GameBoard.pieces[sq + 11] == PIECES.oP) {
-        //console.log("pawn2");
+        //console.log("pawno");
         return BOOL.TRUE;
       }
     }
@@ -396,6 +396,7 @@ function SqAttacked(sq, side) {
     while (piece != SQUARES.OFFBOARD) {
       if (piece != PIECES.EMPTY) {
         if (PieceLance[piece] == BOOL.TRUE && PiecePlayer[piece] == side) {
+          //console.log("L");
           return BOOL.TRUE;
         }
         break;

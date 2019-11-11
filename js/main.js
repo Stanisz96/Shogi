@@ -5,20 +5,7 @@ $(function() {
   PrintBoard();
   tableCreate("pieces");
   tableCreate("normal");
-  GenerateMoves();
-  //PrintMoveList();
-  // PrtPieceLists();
-  CheckBoard();
-  MakeMove(GameBoard.moveList[0]);
-  PrintBoard();
-  CheckBoard();
-  console.log(GameBoard.history);
-  TakeMove();
-  PrintBoard();
-  CheckBoard();
   tableUpdate(mainTable, "pieces");
-
-  console.log(GameBoard.history);
 });
 
 function InitBoardVars() {
