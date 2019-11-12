@@ -4,7 +4,7 @@ $(function() {
   ParseFen(START_FEN);
   PrintBoard();
   tableCreate("pieces");
-  tableCreate("normal");
+  tableCreate("142To81");
   tableUpdate(mainTable, "pieces");
 });
 
@@ -12,6 +12,13 @@ function InitBoardVars() {
   var index = 0;
   for (index = 0; index < MAXGAMEMOVES; ++index) {
     GameBoard.history.push({
+      move: NOMOVE,
+      posKey: 0
+    });
+  }
+
+  for (index = 0; index < PVENTRIES; ++index) {
+    GameBoard.pvTable.push({
       move: NOMOVE,
       posKey: 0
     });
@@ -72,7 +79,7 @@ function InitFilesRanksBrd() {
 
 function InitHashKeys() {
   var index = 0;
-  for (index = 0; index < 18 * 142; ++index) {
+  for (index = 0; index < 18 * BRD_SQ_NUM; ++index) {
     PieceKeys[index] = RAND_32();
   }
 

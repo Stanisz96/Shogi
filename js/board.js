@@ -19,6 +19,10 @@ GameBoard.posKey = 0; // unice number represents position on the board
 GameBoard.moveList = new Array(MAXDEPH * MAXPOSITIONMOVES);
 GameBoard.moveScore = new Array(MAXDEPH * MAXPOSITIONMOVES);
 GameBoard.moveListStart = new Array(MAXDEPH);
+GameBoard.pvTable = [];
+GameBoard.pvArray = new Array(MAXDEPH);
+GameBoard.searchHistory = new Array(18 * BRD_SQ_NUM);
+GameBoard.searchKillers = new Array(3 * MAXDEPH);
 
 function CheckBoard() {
   var t_pieceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

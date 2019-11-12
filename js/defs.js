@@ -1,21 +1,6 @@
+// prettier-ignore
 var PIECES = {
-  EMPTY: 0,
-  gP: 1,
-  gL: 2,
-  gN: 3,
-  gS: 4,
-  gG: 5,
-  gB: 6,
-  gR: 7,
-  gK: 8,
-  oP: 9,
-  oL: 10,
-  oN: 11,
-  oS: 12,
-  oG: 13,
-  oB: 14,
-  oR: 15,
-  oK: 16
+  EMPTY: 0,gP: 1,gL: 2,gN: 3,gS: 4,gG: 5,gB: 6,gR: 7,gK: 8,oP: 9,oL: 10,oN: 11,oS: 12,oG: 13,oB: 14,oR: 15,oK: 16
 };
 
 // board squares number
@@ -76,6 +61,9 @@ var BOOL = { FALSE: 0, TRUE: 1 };
 var MAXGAMEMOVES = 2048;
 var MAXPOSITIONMOVES = 256;
 var MAXDEPH = 81;
+var INFINITE = 30000;
+var MATE = 29000;
+var PVENTRIES = 10000;
 
 var FilesBrd = new Array(BRD_SQ_NUM);
 var RanksBrd = new Array(BRD_SQ_NUM);
@@ -387,6 +375,16 @@ function RAND_32() {
     Math.floor(Math.random() * 255 + 1)
   );
 }
+// prettier-ignore
+var Mirror81=[72,73,74,75,76,77,78,79,80,
+              63,64,65,66,67,68,69,70,71,
+              54,55,56,57,58,59,60,61,62,
+              45,46,47,48,49,50,51,52,53,
+              36,37,38,39,40,41,42,43,44,
+              27,28,29,30,31,32,33,34,35,
+              18,19,20,21,22,23,24,25,26,
+              9 ,10,11,12,13,14,15,16,17,
+              0 ,1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ]
 
 function SQ81(sq142) {
   return Sq142ToSq81[sq142];
@@ -397,6 +395,10 @@ function SQ142(sq81) {
 
 function PIECEINDEX(piece, pieceNum) {
   return piece * 10 + pieceNum;
+}
+
+function MIRROR81(sq) {
+  return Mirror81[sq];
 }
 
 var random = "";

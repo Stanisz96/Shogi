@@ -8,16 +8,11 @@ function Perft(depth) {
   }
   GenerateMoves();
 
-  // if (depth == 1) {
-  //   count++;
-  //   //PrintBoard();
-  // }
   var index, move;
 
   for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
     move = GameBoard.moveList[index];
     if (MakeMove(move) == BOOL.FALSE) {
-      //console.log("ERROR? " + index + "\n" + GameBoard.moveList[index]);
       continue;
     }
     Perft(depth - 1);

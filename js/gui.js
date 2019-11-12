@@ -2,11 +2,9 @@ $("#SetFen").click(function() {
   var fenStr = $("#fenIn").val();
   ParseFen(fenStr);
   PrintBoard();
-  //PrintConsoleBoard();
-  //GenerateMoves();
-  //PrintMoveList();
-  //CheckBoard();
-  PerftTest(5);
-  PrintBoard();
-  //tableUpdate(mainTable, "pieces");
+  tableUpdate(mainTable, "pieces");
+  //PerftTest(5);
+  //PrintBoard();
+  SearchPosition();
+  tableUpdate(mainTable, "pieces");
 });
