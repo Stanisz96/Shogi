@@ -5,7 +5,7 @@ $(function() {
 });
 
 function InitBoardVars() {
-  var index = 0;
+  let index = 0;
   for (index = 0; index < MAXGAMEMOVES; ++index) {
     GameBoard.history.push({
       move: NOMOVE,
@@ -22,8 +22,8 @@ function InitBoardVars() {
 }
 
 function InitBoardSquares() {
-  var light = 1;
-  var rankName, fileName, divString, rankIter, fileIter, lightString;
+  let light = 1;
+  let rankName, fileName, divString, rankIter, fileIter, lightString;
 
   for (rankIter = RANKS.RANK_9; rankIter >= RANKS.RANK_1; rankIter--) {
     rankName = "rank" + (rankIter + 1);
@@ -39,11 +39,11 @@ function InitBoardSquares() {
 }
 
 function InitSq142ToSq81() {
-  var index = 0;
-  var file = FILES.FILE_A;
-  var rank = RANKS.RANK_1;
-  var sq = SQUARES.A1;
-  var sq81 = 0;
+  let index = 0;
+  let file = FILES.FILE_A;
+  let rank = RANKS.RANK_1;
+  let sq = SQUARES.A1;
+  let sq81 = 0;
 
   for (index = 0; index < BRD_SQ_NUM; ++index) {
     Sq142ToSq81[index] = 82;
@@ -64,10 +64,10 @@ function InitSq142ToSq81() {
 }
 
 function InitFilesRanksBrd() {
-  var index = 0;
-  var file = FILES.FILE_A;
-  var rank = RANKS.RANK_1;
-  var sq = SQUARES.A1;
+  let index = 0;
+  let file = FILES.FILE_A;
+  let rank = RANKS.RANK_1;
+  let sq = SQUARES.A1;
 
   for (index = 0; index < BRD_SQ_NUM; ++index) {
     FilesBrd[index] = SQUARES.OFFBOARD;
@@ -83,7 +83,7 @@ function InitFilesRanksBrd() {
 }
 
 function InitHashKeys() {
-  var index = 0;
+  let index = 0;
   for (index = 0; index < 18 * BRD_SQ_NUM; ++index) {
     PieceKeys[index] = RAND_32();
   }

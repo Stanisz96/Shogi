@@ -15,8 +15,8 @@ var MvvLvaValue = [0, 100, 430, 450, 640, 690, 890, 1040, 1200, 100, 430, 450, 6
 var MvvLvaScores = new Array(18 * 18);
 
 function InitMvvLva() {
-  var Attacker;
-  var Victim;
+  let Attacker;
+  let Victim;
 
   for (Attacker = PIECES.wP; Attacker <= PIECES.bK; ++Attacker) {
     for (Victim = PIECES.wP; Victim <= PIECES.bK; ++Victim) {
@@ -27,8 +27,8 @@ function InitMvvLva() {
 
 function MoveExists(move) {
   GenerateMoves();
-  var index;
-  var moveFound = NOMOVE;
+  let index;
+  let moveFound = NOMOVE;
   for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
     moveFound = GameBoard.moveList[index];
     if (MakeMove(moveFound) == BOOL.FALSE) {
@@ -73,7 +73,7 @@ function AddQuietMove(move) {
 function GenerateMoves() {
   GameBoard.moveListStart[GameBoard.ply + 1] = GameBoard.moveListStart[GameBoard.ply];
 
-  var pieceType, pieceNum, sq, pieceIndex, piece, t_sq, dir;
+  let pieceType, pieceNum, sq, pieceIndex, piece, t_sq, dir;
 
   if (GameBoard.side == RANKED_PLAYER.LOWER) {
     pieceType = PIECES.gP;
@@ -159,7 +159,7 @@ function GenerateMoves() {
 function GenerateCapture() {
   GameBoard.moveListStart[GameBoard.ply + 1] = GameBoard.moveListStart[GameBoard.ply];
 
-  var pieceType, pieceNum, sq, pieceIndex, piece, t_sq, dir;
+  let pieceType, pieceNum, sq, pieceIndex, piece, t_sq, dir;
 
   if (GameBoard.side == RANKED_PLAYER.LOWER) {
     pieceType = PIECES.gP;

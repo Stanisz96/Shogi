@@ -25,9 +25,9 @@ GameBoard.searchHistory = new Array(18 * BRD_SQ_NUM);
 GameBoard.searchKillers = new Array(3 * MAXDEPTH);
 
 function CheckBoard() {
-  var t_pieceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  var t_material = [0, 0];
-  var sq81, t_piece, t_piece_num, sq142, side, piece_count;
+  let t_pieceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let t_material = [0, 0];
+  let sq81, t_piece, t_piece_num, sq142, side, piece_count;
 
   for (t_piece = PIECES.gP; t_piece <= PIECES.oK; ++t_piece) {
     for (t_piece_num = 0; t_piece_num < GameBoard.pieceNum[t_piece]; ++t_piece_num) {
@@ -73,7 +73,7 @@ function CheckBoard() {
 }
 
 function PrintBoard() {
-  var sq, file, rank, piece;
+  let sq, file, rank, piece;
   console.log("\nGame Board:\n\n");
 
   for (rank = RANKS.RANK_9; rank >= RANKS.RANK_1; rank--) {
@@ -98,10 +98,10 @@ function PrintBoard() {
 }
 
 function tableCreate(mode) {
-  var files = 11;
-  var ranks = 13;
-  var body = document.getElementsByTagName("body")[0];
-  var tbl = document.createElement("table");
+  let files = 11;
+  let ranks = 13;
+  let body = document.getElementsByTagName("body")[0];
+  let tbl = document.createElement("table");
   tbl.id = "table1";
   //tbl.style.width = "600px";
   tbl.style.position = "center";
@@ -156,8 +156,8 @@ function tableCreate(mode) {
 }
 
 function tableUpdate(table, mode) {
-  var files = 11;
-  var index = 10;
+  let files = 11;
+  let index = 10;
   for (var i = 2; i < 11; i++) {
     for (var j = 0; j < 10; j++) {
       if (mode == "normal") {
@@ -193,7 +193,7 @@ function GeneratePosKey() {
 }
 
 function PrtPieceLists() {
-  var piece, pieceNum;
+  let piece, pieceNum;
   for (piece = PIECES.gP; piece <= PIECES.oK; piece++) {
     for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
       console.log("Piece " + PieceChar[piece] + " on " + PrtSq(GameBoard.pList[PIECEINDEX(piece, pieceNum)]));
@@ -202,7 +202,7 @@ function PrtPieceLists() {
 }
 
 function UpdateListMaterial() {
-  var piece, sq, index, player_rank;
+  let piece, sq, index, player_rank;
 
   for (index = 0; index < 18 * 142; ++index) {
     GameBoard.pList[index] = PIECES.EMPTY;
@@ -228,7 +228,7 @@ function UpdateListMaterial() {
 }
 
 function ResetBoard() {
-  var index = 0;
+  let index = 0;
 
   for (index = 0; index < BRD_SQ_NUM; ++index) {
     GameBoard.pieces[index] = SQUARES.OFFBOARD;
@@ -255,13 +255,13 @@ function ResetBoard() {
 
 function ParseFen(fen) {
   ResetBoard();
-  var rank = RANKS.RANK_9;
-  var file = FILES.FILE_A;
-  var piece = 0;
-  var count = 0;
-  var i = 0;
-  var sq142 = 0;
-  var fenCount = 0;
+  let rank = RANKS.RANK_9;
+  let file = FILES.FILE_A;
+  let piece = 0;
+  let count = 0;
+  let i = 0;
+  let sq142 = 0;
+  let fenCount = 0;
 
   while (rank >= RANKS.RANK_1 && fenCount < fen.length) {
     count = 1;
@@ -358,7 +358,7 @@ function ParseFen(fen) {
 }
 
 function PrintSqAttaced() {
-  var sq, file, rank, piece;
+  let sq, file, rank, piece;
   console.log("\nAttacked:\n");
   for (rank = RANKS.RANK_9; rank >= RANKS.RANK_1; rank--) {
     var line = rank + 1 + "   ";
@@ -376,7 +376,7 @@ function PrintSqAttaced() {
 
 // Is sq attacked by side?
 function SqAttacked(sq, side) {
-  var piece, t_sq, index;
+  let piece, t_sq, index;
   if (PiecePlayer[GameBoard.pieces[sq]] != side) {
     //PAWN
     if (side == RANKED_PLAYER.LOWER) {
@@ -415,7 +415,7 @@ function SqAttacked(sq, side) {
       } else {
         piece = GameBoard.pieces[sq + KnightDir[index]];
       }
-      random += PiecePlayer[piece] + " " + PieceKnight[piece] + " " + piece + "\n";
+      //random += PiecePlayer[piece] + " " + PieceKnight[piece] + " " + piece + "\n";
       if (PiecePlayer[piece] == side && PieceKnight[piece] == BOOL.TRUE) {
         //console.log("knight");
         return BOOL.TRUE;

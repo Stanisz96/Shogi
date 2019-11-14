@@ -1,8 +1,8 @@
 function ClearPiece(sq) {
-  var piece = GameBoard.pieces[sq];
-  var sidePiece = PiecePlayer[piece];
-  var index;
-  var t_pieceNum = -1;
+  let piece = GameBoard.pieces[sq];
+  let sidePiece = PiecePlayer[piece];
+  let index;
+  let t_pieceNum = -1;
 
   HASH_PIECE(piece, sq);
   GameBoard.pieces[sq] = PIECES.EMPTY;
@@ -19,7 +19,7 @@ function ClearPiece(sq) {
 }
 
 function AddPiece(sq, piece) {
-  var sidePiece = PiecePlayer[piece];
+  let sidePiece = PiecePlayer[piece];
   HASH_PIECE(piece, sq);
   GameBoard.pieces[sq] = piece;
   GameBoard.material[sidePiece] += PieceVal[piece];
@@ -28,8 +28,8 @@ function AddPiece(sq, piece) {
 }
 
 function MovePiece(from, to) {
-  var index = 0;
-  var piece = GameBoard.pieces[from];
+  let index = 0;
+  let piece = GameBoard.pieces[from];
   HASH_PIECE(piece, from);
   GameBoard.pieces[from] = PIECES.EMPTY;
   //console.log("hashPieceFrom: " + GameBoard.posKey.toString(16));
@@ -45,13 +45,13 @@ function MovePiece(from, to) {
 }
 
 function MakeMove(move) {
-  var from = FROMSQ(move);
-  var to = TOSQ(move);
-  var side = GameBoard.side;
+  let from = FROMSQ(move);
+  let to = TOSQ(move);
+  let side = GameBoard.side;
   GameBoard.history[GameBoard.hisPlay].posKey = GameBoard.posKey;
   GameBoard.history[GameBoard.hisPlay].move = move;
 
-  var captured = CAPTURED(move);
+  let captured = CAPTURED(move);
   if (captured != PIECES.EMPTY) {
     ClearPiece(to);
   }
@@ -78,15 +78,15 @@ function TakeMove() {
   GameBoard.hisPlay--;
   GameBoard.ply--;
 
-  var move = GameBoard.history[GameBoard.hisPlay].move;
-  var from = FROMSQ(move);
-  var to = TOSQ(move);
+  let move = GameBoard.history[GameBoard.hisPlay].move;
+  let from = FROMSQ(move);
+  let to = TOSQ(move);
 
   GameBoard.side ^= 1;
   HASH_SIDE();
 
   MovePiece(to, from);
-  var captured = CAPTURED(move);
+  let captured = CAPTURED(move);
   if (captured != PIECES.EMPTY) {
     AddPiece(to, captured);
   }

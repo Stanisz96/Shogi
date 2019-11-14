@@ -105,7 +105,7 @@ function MakeUserMove() {
       CheckAndSet();
       PreSearch();
       console.log(SearchController);
-      //console.log(GameBoard);
+      console.log(SearchController);
     }
 
     $(".Square.rank" + (RanksBrd[UserMove.from] + 1) + ".file" + (FilesBrd[UserMove.from] + 1)).removeClass("SqSelected");
