@@ -1,4 +1,4 @@
-function pieceIndex(piece, pieceNum) {
+function PIECEINDEX(piece, pieceNum) {
   return piece * 10 + pieceNum;
 }
 
@@ -74,7 +74,6 @@ function CheckBoard() {
 
 function PrintBoard() {
   var sq, file, rank, piece;
-
   console.log("\nGame Board:\n\n");
 
   for (rank = RANKS.RANK_9; rank >= RANKS.RANK_1; rank--) {
@@ -190,7 +189,6 @@ function GeneratePosKey() {
   if (GameBoard.side == RANKED_PLAYER.LOWER) {
     finalKey ^= SideKey;
   }
-
   return finalKey;
 }
 
@@ -206,7 +204,7 @@ function PrtPieceLists() {
 function UpdateListMaterial() {
   var piece, sq, index, player_rank;
 
-  for (index = 0; index < 18 * 10; ++index) {
+  for (index = 0; index < 18 * 142; ++index) {
     GameBoard.pList[index] = PIECES.EMPTY;
   }
   for (index = 0; index < 2; ++index) {
@@ -238,7 +236,7 @@ function ResetBoard() {
   for (index = 0; index < 81; ++index) {
     GameBoard.pieces[SQ142(index)] = PIECES.EMPTY;
   }
-  for (index = 0; index < 18 * 10; ++index) {
+  /* for (index = 0; index < 18 * 10; ++index) {
     GameBoard.pList[index] = PIECES.EMPTY;
   }
   for (index = 0; index < 2; ++index) {
@@ -246,7 +244,7 @@ function ResetBoard() {
   }
   for (index = 0; index < 17; ++index) {
     GameBoard.pieceNum[index] = 0;
-  }
+  }*/
 
   GameBoard.RANKED_PLAYER = RANKED_PLAYER.BOTH;
   GameBoard.ply = 0;
@@ -352,10 +350,10 @@ function ParseFen(fen) {
   fenCount += 2;
 
   GameBoard.posKey = GeneratePosKey();
-  console.log("Fen read: " + GameBoard.posKey.toString(16));
+  //console.log("Fen read: " + GameBoard.posKey.toString(16));
   UpdateListMaterial();
 
-  PrintSqAttaced();
+  //PrintSqAttaced();
   // console.log(SqAttacked(60, 0));
 }
 

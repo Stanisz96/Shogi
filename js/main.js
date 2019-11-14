@@ -38,15 +38,6 @@ function InitBoardSquares() {
   }
 }
 
-function init() {
-  console.log("init() called");
-  InitFilesRanksBrd();
-  InitHashKeys();
-  InitSq142ToSq81();
-  InitBoardVars();
-  InitBoardSquares();
-}
-
 function InitSq142ToSq81() {
   var index = 0;
   var file = FILES.FILE_A;
@@ -100,11 +91,12 @@ function InitHashKeys() {
   SideKey = RAND_32();
 }
 
-/*
-
-
-
-
-
-
-*/
+function init() {
+  console.log("init() called");
+  InitFilesRanksBrd();
+  InitHashKeys();
+  InitSq142ToSq81();
+  InitBoardVars();
+  InitMvvLva();
+  InitBoardSquares();
+}

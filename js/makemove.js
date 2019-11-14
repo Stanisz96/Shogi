@@ -1,4 +1,4 @@
-function ClearePiece(sq) {
+function ClearPiece(sq) {
   var piece = GameBoard.pieces[sq];
   var sidePiece = PiecePlayer[piece];
   var index;
@@ -48,12 +48,12 @@ function MakeMove(move) {
   var from = FROMSQ(move);
   var to = TOSQ(move);
   var side = GameBoard.side;
-  var captured = CAPTURED(move);
-  //console.log("Before move: " + GameBoard.posKey.toString(16));
   GameBoard.history[GameBoard.hisPlay].posKey = GameBoard.posKey;
   GameBoard.history[GameBoard.hisPlay].move = move;
+
+  var captured = CAPTURED(move);
   if (captured != PIECES.EMPTY) {
-    ClearePiece(to);
+    ClearPiece(to);
   }
   GameBoard.hisPlay++;
   GameBoard.ply++;
@@ -70,6 +70,7 @@ function MakeMove(move) {
     TakeMove();
     return BOOL.FALSE;
   }
+
   return BOOL.TRUE;
 }
 

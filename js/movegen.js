@@ -11,6 +11,20 @@
 
 */
 
+var MvvLvaValue = [0, 100, 430, 450, 640, 690, 890, 1040, 1200, 100, 430, 450, 640, 690, 890, 1040, 1200];
+var MvvLvaScores = new Array(18 * 18);
+
+function InitMvvLva() {
+  var Attacker;
+  var Victim;
+
+  for (Attacker = PIECES.wP; Attacker <= PIECES.bK; ++Attacker) {
+    for (Victim = PIECES.wP; Victim <= PIECES.bK; ++Victim) {
+      MvvLvaScores[Victim * 18 + Attacker] = MvvLvaValue[Victim] + 8 - MvvLvaValue[Attacker] / 100;
+    }
+  }
+}
+
 function MoveExists(move) {
   GenerateMoves();
   var index;
@@ -25,6 +39,7 @@ function MoveExists(move) {
       return BOOL.TRUE;
     }
   }
+
   return BOOL.FALSE;
 }
 
@@ -34,7 +49,8 @@ function MOVE(from, to, captured, promoted, flag) {
 
 function AddCaptureMove(move) {
   GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
-  GameBoard.moveScore[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+  GameBoard.moveScore[GameBoard.moveListStart[GameBoard.ply + 1]++] =
+    MvvLvaScores[CAPTURED(move) * 14 + GameBoard.pieces[FROMSQ(move)]] + 1000000;
 }
 function AddQuietMove(move) {
   GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;

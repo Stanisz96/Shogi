@@ -2,10 +2,24 @@ $("#SetFen").click(function() {
   var fenStr = $("#fenIn").val();
   NewGame(fenStr);
 });
+
+$("#TakeButton").click(function() {
+  if (GameBoard.hisPlay > 0) {
+    console.log("Move was taken");
+    TakeMove();
+    GameBoard.ply = 0;
+    UpdateInitialBoard();
+  }
+});
+
+$("#NewGameButton").click(function() {
+  NewGame(START_FEN);
+});
+
 function NewGame(fenStr) {
   ClearAllPieces();
   ParseFen(fenStr);
-  PrintBoard();
+  //PrintBoard();
   SetInitialBoardPieces();
   CheckAndSet();
 }
@@ -37,13 +51,6 @@ function SetInitialBoardPieces() {
     }
   }
 }
-// function SetSqSelected(sq) {
-//   $('.Square').each(function(index){
-//     if((RanksBrd[sq]==7 - Math.Round($(this).position().top/60)){
-
-//     })
-//   })
-// }
 
 function ClickedSquare(pageX, pageY) {
   //console.log("ClickedSq: " + pageX + "," + pageY);
@@ -91,10 +98,14 @@ function MakeUserMove() {
 
     var parsed = ParseMove(UserMove.from, UserMove.to);
     if (parsed != NOMOVE) {
+      CheckBoard();
       MakeMove(parsed);
       UpdateInitialBoard();
-      PrintBoard();
+      //PrintBoard();
       CheckAndSet();
+      PreSearch();
+      console.log(SearchController);
+      //console.log(GameBoard);
     }
 
     $(".Square.rank" + (RanksBrd[UserMove.from] + 1) + ".file" + (FilesBrd[UserMove.from] + 1)).removeClass("SqSelected");
@@ -121,7 +132,7 @@ function CheckResult() {
   if (found != 0) return BOOL.FALSE;
 
   var InCheck = SqAttacked(GameBoard.pList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side ^ 1);
-  console.log(PIECEINDEX(Kings[GameBoard.side], 0) + " % " + (GameBoard.side ^ 1));
+  //console.log(PIECEINDEX(Kings[GameBoard.side], 0) + " % " + (GameBoard.side ^ 1));
   if (InCheck == BOOL.TRUE) {
     if (GameBoard.side == RANKED_PLAYER.LOWER) {
       $("#GameStatus").text("GAME OVER {higher player mates}");
@@ -145,4 +156,31 @@ function CheckAndSet() {
     GameController.GameOver = BOOL.FALSE;
     $("#GameStatus").text("");
   }
+}
+
+function PreSearch() {
+  if (GameController.GameOver == BOOL.FALSE) {
+    SearchController.thinking = BOOL.TRUE;
+    setTimeout(function() {
+      StartSearch();
+    }, 200);
+  }
+}
+
+$("#SearchButton").click(function() {
+  GameController.PlayerSide = GameController.side ^ 1;
+  PreSearch();
+});
+
+function StartSearch() {
+  SearchController.depth = MAXDEPTH;
+  var t = $.now();
+  var tt = $("#ThinkTime").val();
+
+  SearchController.time = parseInt(tt) * 1000;
+  //console.log(SearchController.time);
+  SearchPosition();
+  MakeMove(SearchController.best);
+  UpdateInitialBoard();
+  CheckAndSet();
 }

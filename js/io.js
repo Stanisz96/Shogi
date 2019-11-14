@@ -17,11 +17,14 @@ function PrtMove(move) {
 
 function PrintMoveList() {
   var index, move;
+  var num = 1;
   console.log("MoveList: ");
   for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
     move = GameBoard.moveList[index];
-    console.log(PrtMove(move));
+    console.log("IMove:" + num + ":(" + index + "):" + PrtMove(move) + " Score:" + GameBoard.moveScores[index]);
+    num++;
   }
+  console.log("End MoveList");
 }
 
 function PrintConsoleBoard() {
@@ -46,7 +49,7 @@ function PrintConsoleBoard() {
 function ParseMove(from, to) {
   GenerateMoves();
 
-  var Moves = NOMOVE;
+  var Move = NOMOVE;
   var PromPiece = PIECES.EMPTY;
   var found = BOOL.FALSE;
 

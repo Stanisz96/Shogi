@@ -2,7 +2,7 @@
 var PIECES = {
   EMPTY: 0,gP: 1,gL: 2,gN: 3,gS: 4,gG: 5,gB: 6,gR: 7,gK: 8,oP: 9,oL: 10,oN: 11,oS: 12,oG: 13,oB: 14,oR: 15,oK: 16
 };
-
+var i = 0;
 // board squares number
 var BRD_SQ_NUM = 143;
 

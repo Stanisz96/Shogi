@@ -48,11 +48,16 @@ div label.info {
   display: inline-block;
   margin: 0px 5px 0px;
   padding-top: 5px;
-  text-align: center;
-  width: 75px;
+  padding-left: 5px;
+  width: 160px;
   height: 25px;
 
   border: solid 1px;
+}
+#ThinkTime {
+  position: absolute;
+  left: 95px;
+  top: 24px;
 }
 
 div#EngineOutput button {
