@@ -16,13 +16,13 @@ GameBoard.pieceNum = new Array(17); // Number of pieces we have
 GameBoard.pList = new Array(18 * 10);
 GameBoard.posKey = 0; // unice number represents position on the board
 
-GameBoard.moveList = new Array(MAXDEPH * MAXPOSITIONMOVES);
-GameBoard.moveScore = new Array(MAXDEPH * MAXPOSITIONMOVES);
-GameBoard.moveListStart = new Array(MAXDEPH);
+GameBoard.moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+GameBoard.moveScore = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+GameBoard.moveListStart = new Array(MAXDEPTH);
 GameBoard.pvTable = [];
-GameBoard.pvArray = new Array(MAXDEPH);
+GameBoard.pvArray = new Array(MAXDEPTH);
 GameBoard.searchHistory = new Array(18 * BRD_SQ_NUM);
-GameBoard.searchKillers = new Array(3 * MAXDEPH);
+GameBoard.searchKillers = new Array(3 * MAXDEPTH);
 
 function CheckBoard() {
   var t_pieceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

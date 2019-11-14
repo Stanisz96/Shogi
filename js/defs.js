@@ -60,7 +60,7 @@ var BOOL = { FALSE: 0, TRUE: 1 };
 
 var MAXGAMEMOVES = 2048;
 var MAXPOSITIONMOVES = 256;
-var MAXDEPH = 81;
+var MAXDEPTH = 81;
 var INFINITE = 30000;
 var MATE = 29000;
 var PVENTRIES = 10000;
@@ -444,3 +444,12 @@ function HASH_PIECE(piece, sq) {
 function HASH_SIDE() {
   GameBoard.posKey ^= SideKey;
 }
+
+var GameController = {};
+GameController.EngineSide = RANKED_PLAYER.BOTH;
+GameController.PlayerSide = RANKED_PLAYER.BOTH;
+GameController.GameOver = BOOL.FALSE;
+
+var UserMove = {};
+UserMove.from = SQUARES.NO_SQ;
+UserMove.to = SQUARES.NO_SQ;

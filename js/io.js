@@ -42,3 +42,33 @@ function PrintConsoleBoard() {
   }
   console.log(line);
 }
+
+function ParseMove(from, to) {
+  GenerateMoves();
+
+  var Moves = NOMOVE;
+  var PromPiece = PIECES.EMPTY;
+  var found = BOOL.FALSE;
+
+  for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
+    Move = GameBoard.moveList[index];
+    if (FROMSQ(Move) == from && TOSQ(Move) == to) {
+      PromPiece = PROMOTED(Move);
+      // if(PromPiece !=PIECES.EMPTY){
+      //   if(PromPiece==)
+      // } PROMOTION
+
+      found = BOOL.TRUE;
+      break;
+    }
+  }
+
+  if (found != BOOL.FALSE) {
+    if (MakeMove(Move) == BOOL.FALSE) {
+      return NOMOVE;
+    }
+    TakeMove();
+    return Move;
+  }
+  return NOMOVE;
+}

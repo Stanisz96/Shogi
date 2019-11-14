@@ -4,12 +4,141 @@ h2 {
   margin-right: auto;
 }
 #FenInDiv {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  left: 60px;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 12px;
+  /*margin-right: auto;*/
 }
 #fenIn {
-  width: 480px;
+  width: 540px;
+}
+#Game {
+  position: relative;
+  margin: 20px auto 20px;
+  width: 750px;
+  height: 650px;
+  border: solid 1px;
+}
+
+#Board {
+  position: absolute;
+  left: 10px;
+  top: 50px;
+  width: 540px;
+  height: 540px;
+  border: solid 1px;
+}
+#GameStatus {
+  position: absolute;
+  left: 10px;
+  top: 610px;
+}
+
+#EngineOutput {
+  text-align: left;
+  margin: 0px auto 0px;
+  position: absolute;
+  left: 560px;
+  top: 50px;
+  width: 180px;
+  height: 540px;
+  border: solid 1px;
+}
+div label.info {
+  display: inline-block;
+  margin: 0px 5px 0px;
+  padding-top: 5px;
+  text-align: center;
+  width: 75px;
+  height: 25px;
+
+  border: solid 1px;
+}
+
+div#EngineOutput button {
+  margin-top: 30px;
+  display: block;
+  width: 100px;
+  height: 30px;
+  margin: 10px auto 10px;
+}
+
+.Square {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}
+
+.Light {
+  background-color: rgb(226, 190, 91);
+}
+
+.Dark {
+  background-color: rgb(201, 165, 65);
+}
+
+.SqSelected {
+  background-color: rgb(163, 129, 35);
+}
+
+.rank1 {
+  top: 480px;
+}
+.rank2 {
+  top: 420px;
+}
+.rank3 {
+  top: 360px;
+}
+.rank4 {
+  top: 300px;
+}
+.rank5 {
+  top: 240px;
+}
+.rank6 {
+  top: 180px;
+}
+.rank7 {
+  top: 120px;
+}
+.rank8 {
+  top: 60px;
+}
+.rank9 {
+  top: 0px;
+}
+.file1 {
+  left: 0px;
+}
+.file2 {
   left: 60px;
+}
+.file3 {
+  left: 120px;
+}
+.file4 {
+  left: 180px;
+}
+.file5 {
+  left: 240px;
+}
+.file6 {
+  left: 300px;
+}
+.file7 {
+  left: 360px;
+}
+.file8 {
+  left: 420px;
+}
+.file9 {
+  left: 480px;
+}
+
+.Piece {
+  position: absolute;
+  z-index: 1;
+  margin-left: 8px;
+  margin-top: 6px;
 }

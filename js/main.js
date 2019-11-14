@@ -1,11 +1,7 @@
 $(function() {
   init();
   console.log("Main Init Called");
-  ParseFen(START_FEN);
-  PrintBoard();
-  tableCreate("pieces");
-  tableCreate("142To81");
-  tableUpdate(mainTable, "pieces");
+  NewGame(START_FEN);
 });
 
 function InitBoardVars() {
@@ -25,12 +21,30 @@ function InitBoardVars() {
   }
 }
 
+function InitBoardSquares() {
+  var light = 1;
+  var rankName, fileName, divString, rankIter, fileIter, lightString;
+
+  for (rankIter = RANKS.RANK_9; rankIter >= RANKS.RANK_1; rankIter--) {
+    rankName = "rank" + (rankIter + 1);
+    for (fileIter = FILES.FILE_A; fileIter <= FILES.FILE_I; fileIter++) {
+      fileName = "file" + (fileIter + 1);
+      if (light == 0) lightString = "Light";
+      else lightString = "Dark";
+      divString = '<div class="Square ' + rankName + " " + fileName + " " + lightString + '"/>';
+      $("#Board").append(divString);
+      light ^= 1;
+    }
+  }
+}
+
 function init() {
   console.log("init() called");
   InitFilesRanksBrd();
   InitHashKeys();
   InitSq142ToSq81();
   InitBoardVars();
+  InitBoardSquares();
 }
 
 function InitSq142ToSq81() {

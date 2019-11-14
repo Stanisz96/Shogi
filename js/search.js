@@ -41,8 +41,9 @@ function ClearPvTable() {
 }
 
 function CheckUp() {
-  if ($.now() - SearchController.start > SearchController.time) {
+  if ($.now() - SearchController.start > 5000) {
     SearchController.stop = BOOL.TRUE;
+    console.log("Time's up");
   }
 }
 
@@ -60,7 +61,7 @@ function Quiescence(alpha, beta) {
   SearchController.nodes++;
 
   // Check Repetitions()
-  if (GameBoard.ply > MAXDEPH - 1) {
+  if (GameBoard.ply > MAXDEPTH - 1) {
     return EvalPosition();
   }
 
@@ -131,7 +132,7 @@ function AlphaBeta(alpha, beta, depth) {
   SearchController.nodes++;
 
   // Check Repetitions()
-  if (GameBoard.ply > MAXDEPH - 1) {
+  if (GameBoard.ply > MAXDEPTH - 1) {
     return EvalPosition();
   }
   var InCheck = SqAttacked(GameBoard.pList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side ^ 1);
@@ -147,6 +148,16 @@ function AlphaBeta(alpha, beta, depth) {
   var OldAlpha = alpha;
   var BestMove = NOMOVE;
   var Move = NOMOVE;
+
+  var PvMove = ProbePvTable();
+  if (PvMove != NOMOVE) {
+    for (MoveNum = GameBoard.moveListStart[GameBoard.ply]; MoveNum < GameBoard.moveListStart[GameBoard.ply + 1]; ++MoveNum) {
+      if (GameBoard.moveList[MoveNum] == PvMove) {
+        GameBoard.moveScore[MoveNum] = 2000000;
+        break;
+      }
+    }
+  }
 
   // get PvMove
   // order PvMove
@@ -172,9 +183,14 @@ function AlphaBeta(alpha, beta, depth) {
           SearchController.fhf++;
         }
         SearchController.fh++;
-        // update killer moves
-
+        if ((Move & MFLAG_CAP) == 0) {
+          GameBoard.searchKillers[MAXDEPTH + GameBoard.ply] = GameBoard.searchKillers[GameBoard.ply];
+          GameBoard.searchKillers[GameBoard.ply] = Move;
+        }
         return beta;
+      }
+      if ((Move & MFLAG_CAP) == 0) {
+        GameBoard.searchHistory[GameBoard.pieces[FROMSQ(Move)] * BRD_SQ_NUM + TOSQ(Move)] += depth * depth;
       }
       alpha = Score;
       BestMove = Move;
@@ -203,7 +219,7 @@ function ClearForSearch() {
   for (index = 0; index < 18 * BRD_SQ_NUM; ++index) {
     GameBoard.searchHistory[index] = 0;
   }
-  for (index = 0; index < 3 * MAXDEPH; ++index) {
+  for (index = 0; index < 3 * MAXDEPTH; ++index) {
     GameBoard.searchKillers[index] = 0;
   }
 
@@ -223,7 +239,7 @@ function SearchPosition() {
   var line;
   var PvNum, c;
   ClearForSearch();
-  for (currentDepth = 1; currentDepth <= /*SearchController.depth*/ 4; ++currentDepth) {
+  for (currentDepth = 1; currentDepth <= /*SearchController.depth*/ 5; ++currentDepth) {
     bestScore = AlphaBeta(-INFINITE, INFINITE, currentDepth);
 
     if (SearchController.stop == BOOL.TRUE) {

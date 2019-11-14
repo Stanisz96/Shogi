@@ -11,10 +11,41 @@
     <header>
       <h2>Shogi</h2>
     </header>
-    <div id="FenInDiv">
-      Fen: <br />
-      <input type="text" id="fenIn" />
-      <button type="button" id="SetFen">Set Position</button>
+    <div id="Game">
+      <div id="FenInDiv">
+        <input type="text" id="fenIn" />
+        <button type="button" id="SetFen">Set Position</button>
+      </div>
+      <div id="Board">
+        <!-- <img
+          src="images/gL.png"
+          class="Piece rank1 file3"
+          style="z-index: 1; margin-left:8px;margin-top:6px;"
+        /> -->
+      </div>
+      <div id="EngineOutput">
+        <br />
+        <label for="ThinkTime" class="info">Set Time</label>
+        <select name="ThinkTime" id="ThinkTime">
+          <option value="1">1s</option>
+          <option value="2">2s</option>
+          <option value="4">4s</option>
+          <option value="6">6s</option>
+          <option value="8">8s</option>
+          <option value="10">10s</option> </select
+        ><br /><br />
+        <label for="" class="info">BestMove</label><br />
+        <label for="" class="info">Depth</label><br />
+        <label for="" class="info">Score</label><br />
+        <label for="" class="info">Nodes</label><br />
+        <label for="" class="info">Ordering</label><br />
+        <label for="" class="info">Time</label><br /><br /><br />
+        <button type="button" id="SearchButton">Move Now</button>
+        <button type="button" id="NewGameButton">New Game</button>
+        <button type="button" id="FlipButton">Flip Board</button><br />
+        <button type="button" id="TakeButton">Take Back</button>
+      </div>
+      <span id="GameStatus"></span>
     </div>
 
     <script src="./js/jquery-3.4.1.min.js"></script>
