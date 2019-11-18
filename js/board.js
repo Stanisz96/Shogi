@@ -415,7 +415,6 @@ function SqAttacked(sq, side) {
       } else {
         piece = GameBoard.pieces[sq + KnightDir[index]];
       }
-      //random += PiecePlayer[piece] + " " + PieceKnight[piece] + " " + piece + "\n";
       if (PiecePlayer[piece] == side && PieceKnight[piece] == BOOL.TRUE) {
         //console.log("knight");
         return BOOL.TRUE;
