@@ -19,6 +19,6 @@ Game works without some rules:
 - There is no draw rule "Sennichite" and "Jishogi"
 - Player can't do illegal move
 ## AI
-Builded AI machine is based on MinMax and AlphaBeta. Additionali there are some functions to optimalize number of searching moves. Evaluaton is not taken into account.
+Builded AI machine is based on MinMax and AlphaBeta. Additionally there are some functions to optimalize number of searching moves. Evaluation is not taken into account.
 ## Layout
 ![game layout](https://raw.githubusercontent.com/Stanisz96/Shogi/master/images/game.png)
