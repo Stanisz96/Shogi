@@ -4,7 +4,7 @@ Shogi is a strategy board game. It's similar to chess, also known as Japanese ch
  - There is more pieces (King, Rook, Bishop, Gold General, Silver General, Knight, Lance, Pawn)
  - Almost every pieces can be promoted (except King and Gold General)
  - Promotion can be done while player move piece to/in oponnets area
- - When a player capture a pieces - he/she can draps captured pices on board as his/her own (cost - turn)
+ - When a player capture a pieces - player can draps captured pices on board as players own (cost - turn)
  - Pawns capture the same way they move
  - There is no initial two-space pawn move and no en-passant move.
  - There is no special castling move. There are a large number of possible defensive formations referred to as “castles” (see Sample game)    but there is no need for special moves to create them.
