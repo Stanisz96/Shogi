@@ -84,7 +84,7 @@ function InitFilesRanksBrd() {
 
 function InitHashKeys() {
   let index = 0;
-  for (index = 0; index < 18 * BRD_SQ_NUM; ++index) {
+  for (index = 0; index < 30 * BRD_SQ_NUM; ++index) {
     PieceKeys[index] = RAND_32();
   }
 

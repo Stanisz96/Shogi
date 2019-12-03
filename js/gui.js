@@ -42,10 +42,23 @@ function SetInitialBoardPieces() {
     file = FilesBrd[sq142];
     rank = RanksBrd[sq142];
 
-    if (piece >= PIECES.gP && piece <= PIECES.oK) {
+    if (piece >= PIECES.gP && piece <= PIECES.oRa) {
       rankName = "rank" + (rank + 1);
       fileName = "file" + (file + 1);
-      pieceFileName = "images/" + SideChar[PiecePlayer[piece]] + PieceChar[piece].toUpperCase() + ".png";
+      pieceFileName = "images/" + SideChar[PiecePlayer[piece]] + PieceChar[piece].toUpperCase();
+      //if (GameBoard.promoted[sq142] == 1) pieceFileName += "a";
+
+      /*for (index = 0; index < GameBoard.pieceNum[piece]; ++index) {
+        if (
+          GameBoard.pieceList[PIECEINDEX(piece, index)] == sq142 &&
+          GameBoard.promotedList[PIECEINDEX(piece, index)] == BOOL.TRUE
+        ) {
+          pieceFileName += "a";
+          break;
+        }
+      }*/
+
+      pieceFileName += ".png";
       imageString = '<image src="' + pieceFileName + '" class="Piece ' + rankName + " " + fileName + '"/>';
       $("#Board").append(imageString);
     }
@@ -99,13 +112,16 @@ function MakeUserMove() {
     var parsed = ParseMove(UserMove.from, UserMove.to);
     if (parsed != NOMOVE) {
       CheckBoard();
+      console.log(parsed.toString(2));
       MakeMove(parsed);
+      //console.log(MOVE(UserMove.from, UserMove.from + 11, PIECES.EMPTY, PIECES.EMPTY, MFLAG_AWA).toString(2));
+      //console.log(GameBoard.promoted);
       UpdateInitialBoard();
-      //PrintBoard();
+
       CheckAndSet();
-      PreSearch();
-      console.log(SearchController);
-      console.log(SearchController);
+      //PreSearch();
+      //console.log(SearchController);
+      //console.log(SearchController);
     }
 
     $(".Square.rank" + (RanksBrd[UserMove.from] + 1) + ".file" + (FilesBrd[UserMove.from] + 1)).removeClass("SqSelected");
@@ -113,6 +129,7 @@ function MakeUserMove() {
 
     UserMove.from = SQUARES.NO_SQ;
     UserMove.to = SQUARES.NO_SQ;
+    PrintSqAttaced();
   }
 }
 
@@ -122,6 +139,7 @@ function CheckResult() {
   var moveNum = 0;
   var found = 0;
   for (moveNum = GameBoard.moveListStart[GameBoard.ply]; moveNum < GameBoard.moveListStart[GameBoard.ply + 1]; ++moveNum) {
+    //console.log("checkresult");
     if (MakeMove(GameBoard.moveList[moveNum]) == BOOL.FALSE) {
       continue;
     }
@@ -131,7 +149,7 @@ function CheckResult() {
   }
   if (found != 0) return BOOL.FALSE;
 
-  var InCheck = SqAttacked(GameBoard.pList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side ^ 1);
+  var InCheck = SqAttacked(GameBoard.pieceList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side ^ 1);
   //console.log(PIECEINDEX(Kings[GameBoard.side], 0) + " % " + (GameBoard.side ^ 1));
   if (InCheck == BOOL.TRUE) {
     if (GameBoard.side == RANKED_PLAYER.LOWER) {

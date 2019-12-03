@@ -136,7 +136,7 @@ function AlphaBeta(alpha, beta, depth) {
   if (GameBoard.ply > MAXDEPTH - 1) {
     return EvalPosition();
   }
-  let InCheck = SqAttacked(GameBoard.pList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side ^ 1);
+  let InCheck = SqAttacked(GameBoard.pieceList[PIECEINDEX(Kings[GameBoard.side], 0)], GameBoard.side ^ 1);
   if (InCheck == BOOL.TRUE) {
     depth++;
   }
@@ -216,7 +216,7 @@ function AlphaBeta(alpha, beta, depth) {
 function ClearForSearch() {
   let index = 0;
 
-  for (index = 0; index < 18 * BRD_SQ_NUM; ++index) {
+  for (index = 0; index < 30 * BRD_SQ_NUM; ++index) {
     GameBoard.searchHistory[index] = 0;
   }
   for (index = 0; index < 3 * MAXDEPTH; ++index) {

@@ -17,12 +17,12 @@ function EvalPosition() {
   var piece, sq, pieceNum;
   piece = PIECES.gK;
   // for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; ++pieceNum) {
-  //   sq = GameBoard.pList[PIECEINDEX(piece, pieceNum)];
+  //   sq = GameBoard.pieceList[PIECEINDEX(piece, pieceNum)];
   //   score += KingTable[SQ81(sq)];
   // }
   // piece = PIECES.oK;
   // for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; ++pieceNum) {
-  //   sq = GameBoard.pList[PIECEINDEX(piece, pieceNum)];
+  //   sq = GameBoard.pieceList[PIECEINDEX(piece, pieceNum)];
   //   score -= KingTable[SQ81(sq)];
   // }
 

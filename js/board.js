@@ -5,6 +5,7 @@ function PIECEINDEX(piece, pieceNum) {
 var GameBoard = {};
 
 GameBoard.pieces = new Array(BRD_SQ_NUM);
+GameBoard.promoted = new Array(BRD_SQ_NUM);
 GameBoard.side = RANKED_PLAYER.LOWER;
 //GameBoard.fiftyMove = 0; // for chess -> if 50 moves done without  == draw (shogi dont have this)
 GameBoard.hisPlay = 0; // count every move which has been made from the start
@@ -12,8 +13,9 @@ GameBoard.ply = 0; // nr half moves made in search tree
 GameBoard.history = [];
 //GameBoard.castePerm = 0; // for chess, in shogi there is no castling
 GameBoard.material = new Array(2); // Higher and lower player material of pieces
-GameBoard.pieceNum = new Array(17); // Number of pieces we have
-GameBoard.pList = new Array(18 * 10);
+GameBoard.pieceNum = new Array(29); // Number of pieces we have
+GameBoard.pieceList = new Array(30 * 10);
+GameBoard.promotedList = new Array(30 * 10);
 GameBoard.posKey = 0; // unice number represents position on the board
 
 GameBoard.moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
@@ -21,19 +23,20 @@ GameBoard.moveScore = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 GameBoard.moveListStart = new Array(MAXDEPTH);
 GameBoard.pvTable = [];
 GameBoard.pvArray = new Array(MAXDEPTH);
-GameBoard.searchHistory = new Array(18 * BRD_SQ_NUM);
+GameBoard.searchHistory = new Array(30 * BRD_SQ_NUM);
 GameBoard.searchKillers = new Array(3 * MAXDEPTH);
 
 function CheckBoard() {
-  let t_pieceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let t_pieceNum = new Array(29).fill(0);
   let t_material = [0, 0];
   let sq81, t_piece, t_piece_num, sq142, side, piece_count;
 
-  for (t_piece = PIECES.gP; t_piece <= PIECES.oK; ++t_piece) {
+  for (t_piece = PIECES.gP; t_piece <= PIECES.oRa; ++t_piece) {
     for (t_piece_num = 0; t_piece_num < GameBoard.pieceNum[t_piece]; ++t_piece_num) {
-      sq142 = GameBoard.pList[PIECEINDEX(t_piece, t_piece_num)];
+      sq142 = GameBoard.pieceList[PIECEINDEX(t_piece, t_piece_num)];
       if (GameBoard.pieces[sq142] != t_piece) {
         console.error("error piece list");
+        console.log("GameBoard pieces: " + GameBoard.pieces[sq142] + " || " + t_piece);
         return BOOL.FALSE;
       }
     }
@@ -48,6 +51,7 @@ function CheckBoard() {
   for (t_piece = PIECES.gP; t_piece <= PIECES.oK; ++t_piece) {
     if (t_pieceNum[t_piece] != GameBoard.pieceNum[t_piece]) {
       console.error("error t_pieceNum");
+      console.log(t_piece + ": " + t_pieceNum[t_piece] + " || " + GameBoard.pieceNum[t_piece]);
       return BOOL.FALSE;
     }
   }
@@ -196,7 +200,7 @@ function PrtPieceLists() {
   let piece, pieceNum;
   for (piece = PIECES.gP; piece <= PIECES.oK; piece++) {
     for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
-      console.log("Piece " + PieceChar[piece] + " on " + PrtSq(GameBoard.pList[PIECEINDEX(piece, pieceNum)]));
+      console.log("Piece " + PieceChar[piece] + " on " + PrtSq(GameBoard.pieceList[PIECEINDEX(piece, pieceNum)]));
     }
   }
 }
@@ -204,13 +208,13 @@ function PrtPieceLists() {
 function UpdateListMaterial() {
   let piece, sq, index, player_rank;
 
-  for (index = 0; index < 18 * 142; ++index) {
-    GameBoard.pList[index] = PIECES.EMPTY;
+  for (index = 0; index < 30 * 10; ++index) {
+    GameBoard.pieceList[index] = PIECES.EMPTY;
   }
   for (index = 0; index < 2; ++index) {
     GameBoard.material[index] = 0;
   }
-  for (index = 0; index < 17; ++index) {
+  for (index = 0; index < 29; ++index) {
     GameBoard.pieceNum[index] = 0;
   }
 
@@ -220,7 +224,8 @@ function UpdateListMaterial() {
     if (piece != PIECES.EMPTY) {
       player_rank = PiecePlayer[piece];
       GameBoard.material[player_rank] += PieceVal[piece];
-      GameBoard.pList[PIECEINDEX(piece, GameBoard.pieceNum[piece])] = sq;
+      //if (piece == PIECES.oK) console.log("King square: " + sq);
+      GameBoard.pieceList[PIECEINDEX(piece, GameBoard.pieceNum[piece])] = sq;
       GameBoard.pieceNum[piece]++;
     }
   }
@@ -236,15 +241,16 @@ function ResetBoard() {
   for (index = 0; index < 81; ++index) {
     GameBoard.pieces[SQ142(index)] = PIECES.EMPTY;
   }
-  /* for (index = 0; index < 18 * 10; ++index) {
-    GameBoard.pList[index] = PIECES.EMPTY;
+  for (index = 0; index < 30 * 10; ++index) {
+    GameBoard.pieceList[index] = PIECES.EMPTY;
+    //GameBoard.promotedList[index] = PIECES.EMPTY;
   }
   for (index = 0; index < 2; ++index) {
     GameBoard.material[index] = 0;
   }
-  for (index = 0; index < 17; ++index) {
+  for (index = 0; index < 29; ++index) {
     GameBoard.pieceNum[index] = 0;
-  }*/
+  }
 
   GameBoard.RANKED_PLAYER = RANKED_PLAYER.BOTH;
   GameBoard.ply = 0;
@@ -259,6 +265,7 @@ function ParseFen(fen) {
   let file = FILES.FILE_A;
   let piece = 0;
   let count = 0;
+  let prom = "";
   let i = 0;
   let sq142 = 0;
   let fenCount = 0;
@@ -266,50 +273,65 @@ function ParseFen(fen) {
   while (rank >= RANKS.RANK_1 && fenCount < fen.length) {
     count = 1;
     switch (fen[fenCount]) {
+      case "+":
+        prom = "a";
+        break;
       case "p":
-        piece = PIECES.oP;
+        piece = PIECES["oP" + prom];
+        prom = "";
         break;
       case "n":
-        piece = PIECES.oN;
+        piece = PIECES["oN" + prom];
+        prom = "";
         break;
       case "l":
-        piece = PIECES.oL;
+        piece = PIECES["oL" + prom];
+        prom = "";
         break;
       case "s":
-        piece = PIECES.oS;
+        piece = PIECES["oS" + prom];
+        prom = "";
         break;
       case "g":
         piece = PIECES.oG;
         break;
       case "b":
-        piece = PIECES.oB;
+        piece = PIECES["oB" + prom];
+        prom = "";
         break;
       case "r":
-        piece = PIECES.oR;
+        piece = PIECES["oR" + prom];
+        prom = "";
         break;
       case "k":
         piece = PIECES.oK;
         break;
       case "P":
-        piece = PIECES.gP;
+        piece = PIECES["gP" + prom];
+        prom = "";
         break;
       case "N":
-        piece = PIECES.gN;
+        piece = PIECES["gN" + prom];
+        prom = "";
         break;
       case "L":
-        piece = PIECES.gL;
+        piece = PIECES["gL" + prom];
+        prom = "";
         break;
       case "S":
-        piece = PIECES.gS;
+        piece = PIECES["gS" + prom];
+        prom = "";
         break;
       case "G":
         piece = PIECES.gG;
         break;
       case "B":
-        piece = PIECES.gB;
+        piece = PIECES["gB" + prom];
+        prom = "";
         break;
       case "R":
-        piece = PIECES.gR;
+        piece = PIECES["gR" + prom];
+        prom = "";
         break;
       case "K":
         piece = PIECES.gK;
@@ -338,10 +360,12 @@ function ParseFen(fen) {
         console.log("FEN error");
         return;
     }
-    for (i = 0; i < count; i++) {
-      sq142 = FR2SQ(file, rank);
-      GameBoard.pieces[sq142] = piece;
-      file++;
+    if (prom != "a") {
+      for (i = 0; i < count; i++) {
+        sq142 = FR2SQ(file, rank);
+        GameBoard.pieces[sq142] = piece;
+        file++;
+      }
     }
     fenCount++;
   }
