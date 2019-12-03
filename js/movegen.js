@@ -68,7 +68,7 @@ function AddQuietMove(move) {
   GameBoard.moveListStart[GameBoard.ply + 1]++;
 }
 
-// add function promotion :)
+// add function promotion
 
 function AddPromotionMove(from, to, cap) {
   if (GameBoard.side == RANKED_PLAYER.LOWER && to > 88) {
@@ -90,45 +90,6 @@ function AddPromotionMove(from, to, cap) {
   }
 }
 
-/*
-function AddPromotionMove(from, to, cap) {
-  let is_promoted = BOOL.FALSE;
-  var index = 0;
-  //console.log(GameBoard.pieceNum[GameBoard.pieces[from]]);
-  for (index = 0; index < GameBoard.pieceNum[GameBoard.pieces[from]]; ++index) {
-    if (GameBoard.pieceList[PIECEINDEX(GameBoard.pieces[from], index)] == from) {
-      is_promoted = GameBoard.promotedList[PIECEINDEX(GameBoard.pieces[from], index)];
-      break;
-    }
-  }
-  if (is_promoted != BOOL.TRUE) {
-    if (
-      GameBoard.side == RANKED_PLAYER.LOWER &&
-      to > 88 &&
-      GameBoard.pieces[from] != PIECES.gK &&
-      GameBoard.pieces[from] != PIECES.gG
-    ) {
-      if (cap != PIECES.EMPTY) {
-        AddCaptureMove(MOVE(from, to, cap, PIECES.EMPTY, MFLAG_AWA));
-      } else {
-        AddQuietMove(MOVE(from, to, PIECES.EMPTY, PIECES.EMPTY, MFLAG_AWA));
-      }
-    }
-    if (
-      GameBoard.side == RANKED_PLAYER.HIGHER &&
-      to < 55 &&
-      GameBoard.pieces[from] != PIECES.oK &&
-      GameBoard.pieces[from] != PIECES.oG
-    ) {
-      if (cap != PIECES.EMPTY) {
-        AddCaptureMove(MOVE(from, to, cap, PIECES.EMPTY, MFLAG_AWA));
-      } else {
-        AddQuietMove(MOVE(from, to, PIECES.EMPTY, PIECES.EMPTY, MFLAG_AWA));
-      }
-    }
-  }
-}
-*/
 function GenerateMoves() {
   GameBoard.moveListStart[GameBoard.ply + 1] = GameBoard.moveListStart[GameBoard.ply];
 

@@ -35,7 +35,7 @@ function UpdateInitialBoard() {
 
 function SetInitialBoardPieces() {
   var sq, sq142, file, rank, rankName, fileName, imageString, pieceFileName, piece;
-
+  var index;
   for (sq = 0; sq < 81; sq++) {
     sq142 = SQ142(sq);
     piece = GameBoard.pieces[sq142];
@@ -63,6 +63,11 @@ function SetInitialBoardPieces() {
       $("#Board").append(imageString);
     }
   }
+
+  // Pieces in hand
+  /*for (index = 0; index <= 15; index++) {
+
+  }*/
 }
 
 function ClickedSquare(pageX, pageY) {

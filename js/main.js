@@ -24,7 +24,7 @@ function InitBoardVars() {
 function InitBoardSquares() {
   let light = 1;
   let rankName, fileName, divString, rankIter, fileIter, lightString;
-
+  let index;
   for (rankIter = RANKS.RANK_9; rankIter >= RANKS.RANK_1; rankIter--) {
     rankName = "rank" + (rankIter + 1);
     for (fileIter = FILES.FILE_A; fileIter <= FILES.FILE_I; fileIter++) {
@@ -34,6 +34,16 @@ function InitBoardSquares() {
       divString = '<div class="Square ' + rankName + " " + fileName + " " + lightString + '"/>';
       $("#Board").append(divString);
       light ^= 1;
+    }
+  }
+  divString = "";
+  for (index = 0; index <= 15; index++) {
+    if (index <= 7) {
+      divString = '<div class="Square Left captured' + (index + 1) + '"/>';
+      $("#LeftHand").append(divString);
+    } else {
+      divString = '<div class="Square Right captured' + (index - 7) + '"/>';
+      $("#RightHand").append(divString);
     }
   }
 }

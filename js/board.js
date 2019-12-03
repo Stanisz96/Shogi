@@ -16,6 +16,7 @@ GameBoard.material = new Array(2); // Higher and lower player material of pieces
 GameBoard.pieceNum = new Array(29); // Number of pieces we have
 GameBoard.pieceList = new Array(30 * 10);
 GameBoard.promotedList = new Array(30 * 10);
+GameBoard.capturedList = new Array(8 * 2).fill(0);
 GameBoard.posKey = 0; // unice number represents position on the board
 
 GameBoard.moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);

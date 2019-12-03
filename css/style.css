@@ -15,18 +15,34 @@ h2 {
 #Game {
   position: relative;
   margin: 20px auto 20px;
-  width: 750px;
+  width: 900px;
   height: 650px;
-  border: solid 1px;
+  border: solid 0px;
+}
+#LeftHand {
+  position: absolute;
+  left: 10px;
+  top: 50px;
+  width: 60px;
+  height: 480px;
+  border: solid 2px;
+}
+#RightHand {
+  position: absolute;
+  left: 612px;
+  top: 110px;
+  width: 60px;
+  height: 480px;
+  border: solid 2px;
 }
 
 #Board {
   position: absolute;
-  left: 10px;
+  left: 70px;
   top: 50px;
   width: 540px;
   height: 540px;
-  border: solid 1px;
+  border: solid 2px;
 }
 #GameStatus {
   position: absolute;
@@ -38,10 +54,10 @@ h2 {
   text-align: left;
   margin: 0px auto 0px;
   position: absolute;
-  left: 560px;
+  left: 700px;
   top: 50px;
   width: 180px;
-  height: 540px;
+  height: 542px;
   border: solid 1px;
 }
 div label.info {
@@ -146,4 +162,43 @@ div#EngineOutput button {
   z-index: 1;
   margin-left: 8px;
   margin-top: 6px;
+}
+
+.Right {
+  background-color: rgb(250, 242, 169);
+  border: solid 1px;
+  left: -1px;
+  top: -1px;
+}
+
+.Left {
+  background-color: rgb(250, 242, 169);
+  border: solid 1px;
+  left: -1px;
+  top: -1px;
+}
+
+.captured1 {
+  transform: translateY(0px);
+}
+.captured2 {
+  transform: translateY(60px);
+}
+.captured3 {
+  transform: translateY(120px);
+}
+.captured4 {
+  transform: translateY(180px);
+}
+.captured5 {
+  transform: translateY(240px);
+}
+.captured6 {
+  transform: translateY(300px);
+}
+.captured7 {
+  transform: translateY(360px);
+}
+.captured8 {
+  transform: translateY(420px);
 }
