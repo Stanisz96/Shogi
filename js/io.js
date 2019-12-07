@@ -76,7 +76,7 @@ function ParseMove(from, to) {
       //GameBoard.pieces[from] = PROMOTION[GameBoard.pieces[from]];
     } else return Move[0];
   } else if (found[0] != BOOL.FALSE) {
-    console.log("normal");
+    //console.log("normal");
     if (MakeMove(Move[0]) == BOOL.FALSE) return NOMOVE;
     TakeMove();
     return Move[0];

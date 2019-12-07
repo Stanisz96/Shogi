@@ -98,10 +98,20 @@ div#EngineOutput button {
   background-color: rgb(201, 165, 65);
 }
 
+.OffBoard {
+  background-color: rgb(250, 242, 169);
+}
+
 .SqSelected {
   background-color: rgb(163, 129, 35);
 }
 
+.Red {
+  background-color: rgb(212, 59, 59);
+}
+.Green {
+  background-color: rgb(82, 218, 41);
+}
 .rank1 {
   top: 480px;
 }
@@ -165,14 +175,12 @@ div#EngineOutput button {
 }
 
 .Right {
-  background-color: rgb(250, 242, 169);
   border: solid 1px;
   left: -1px;
   top: -1px;
 }
 
 .Left {
-  background-color: rgb(250, 242, 169);
   border: solid 1px;
   left: -1px;
   top: -1px;

@@ -44,8 +44,8 @@ function MoveExists(move) {
   return BOOL.FALSE;
 }
 
-function MOVE(from, to, captured, promoted, flag) {
-  return from | (to << 7) | (captured << 14) | (promoted << 20) | flag;
+function MOVE(from, to, captured, drop, flag) {
+  return from | (to << 7) | (captured << 14) | (drop << 20) | flag;
 }
 
 function AddCaptureMove(move) {
@@ -90,6 +90,13 @@ function AddPromotionMove(from, to, cap) {
   }
 }
 
+function AddDropMove(from, to, drop) {
+  // rules when you cant drop
+  //console.log("drop: " + drop.toString(2));
+  console.log("AddDropMove: " + MOVE(from, to, PIECES.EMPTY, drop, 0).toString(2));
+  AddQuietMove(MOVE(from, to, PIECES.EMPTY, drop, 0));
+}
+
 function GenerateMoves() {
   GameBoard.moveListStart[GameBoard.ply + 1] = GameBoard.moveListStart[GameBoard.ply];
 
@@ -97,6 +104,19 @@ function GenerateMoves() {
 
   if (GameBoard.side == RANKED_PLAYER.LOWER) {
     pieceType = PIECES.gP;
+    //drop
+    for (index = 0; index <= 7; index++) {
+      if (GameBoard.capturedList[index] != 0) {
+        for (pieceSq = 0; pieceSq < 142; pieceSq++) {
+          if (GameBoard.pieces[pieceSq] == PIECES.EMPTY) {
+            console.log("from: " + HandSq[index + 1] + " to: " + pieceSq + " droped: " + (index + 1));
+            AddDropMove(HandSq[index + 1], pieceSq, index + 1);
+            //$(".Square.rank" + (RanksBrd[pieceSq] + 1) + ".file" + (FilesBrd[pieceSq] + 1)).addClass("Red");
+            //console.log("Drop: " + PieceChar[index + 1] + " on sq " + pieceSq);
+          }
+        }
+      }
+    }
 
     for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; ++pieceNum) {
       sq = GameBoard.pieceList[PIECEINDEX(pieceType, pieceNum)];
@@ -112,6 +132,19 @@ function GenerateMoves() {
     }
   } else {
     pieceType = PIECES.oP;
+    //drop
+    for (index = 8; index <= 15; index++) {
+      if (GameBoard.capturedList[index] != 0) {
+        for (pieceSq = 0; pieceSq < 142; pieceSq++) {
+          if (GameBoard.pieces[pieceSq] == PIECES.EMPTY) {
+            AddDropMove(HandSq[index + 7], pieceSq, index + 7);
+            //$(".Square.rank" + (RanksBrd[pieceSq] + 1) + ".file" + (FilesBrd[pieceSq] + 1)).addClass("Green");
+            //console.log("Drop: " + PieceChar[index + 1] + " on sq " + pieceSq);
+          }
+        }
+      }
+    }
+
     for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; ++pieceNum) {
       sq = GameBoard.pieceList[PIECEINDEX(pieceType, pieceNum)];
 

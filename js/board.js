@@ -16,7 +16,7 @@ GameBoard.material = new Array(2); // Higher and lower player material of pieces
 GameBoard.pieceNum = new Array(29); // Number of pieces we have
 GameBoard.pieceList = new Array(30 * 10);
 GameBoard.promotedList = new Array(30 * 10);
-GameBoard.capturedList = new Array(8 * 2).fill(0);
+GameBoard.capturedList = new Array(16).fill(0);
 GameBoard.posKey = 0; // unice number represents position on the board
 
 GameBoard.moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
@@ -236,21 +236,24 @@ function UpdateListMaterial() {
 function ResetBoard() {
   let index = 0;
 
-  for (index = 0; index < BRD_SQ_NUM; ++index) {
+  for (index = 0; index < BRD_SQ_NUM; index++) {
     GameBoard.pieces[index] = SQUARES.OFFBOARD;
   }
-  for (index = 0; index < 81; ++index) {
+  for (index = 0; index < 81; index++) {
     GameBoard.pieces[SQ142(index)] = PIECES.EMPTY;
   }
-  for (index = 0; index < 30 * 10; ++index) {
+  for (index = 0; index < 30 * 10; index++) {
     GameBoard.pieceList[index] = PIECES.EMPTY;
     //GameBoard.promotedList[index] = PIECES.EMPTY;
   }
-  for (index = 0; index < 2; ++index) {
+  for (index = 0; index < 2; index++) {
     GameBoard.material[index] = 0;
   }
-  for (index = 0; index < 29; ++index) {
+  for (index = 0; index < 29; index++) {
     GameBoard.pieceNum[index] = 0;
+  }
+  for (index = 0; index < 16; index++) {
+    GameBoard.capturedList[index] = 0;
   }
 
   GameBoard.RANKED_PLAYER = RANKED_PLAYER.BOTH;

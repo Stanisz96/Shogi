@@ -182,7 +182,7 @@ var Kings = [PIECES.gK, PIECES.oK];
 //0000 0000 0000 0011 1111 1000 0000 7bit for tosq 81
 //0000 0000 0111 1100 0000 0000 0000 5bit for captured
 //0000 0000 1000 0000 0000 0000 0000 1bit if can be promoted?? awakening
-//0001 1111 0000 0000 0000 0000 0000 5bit promoted
+//0001 1111 0000 0000 0000 0000 0000 5bit drop piece
 //
 // 0000 0000 0000 0000 0000 0000
 
@@ -195,8 +195,8 @@ function TOSQ(m) {
 function CAPTURED(m) {
   return (m >> 14) & 0x1f;
 }
-function PROMOTED(m) {
-  return (m >> 20) & 0xf;
+function DROP(m) {
+  return (m >> 20) & 0x7f;
 }
 
 var MFLAG_AWA = 0x80000;
@@ -226,3 +226,6 @@ GameController.GameOver = BOOL.FALSE;
 var UserMove = {};
 UserMove.from = SQUARES.NO_SQ;
 UserMove.to = SQUARES.NO_SQ;
+
+// prettier-ignore
+var HandSq = [120, 109, 98, 87, 76, 65, 54, 43, 32, 120, 120, 120, 120, 120, 120, 33, 44, 55, 66, 77, 88, 99, 110, 120, 120, 120, 120, 120, 120];

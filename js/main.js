@@ -39,10 +39,10 @@ function InitBoardSquares() {
   divString = "";
   for (index = 0; index <= 15; index++) {
     if (index <= 7) {
-      divString = '<div class="Square Left captured' + (index + 1) + '"/>';
+      divString = '<div class="Square Left OffBoard captured' + (index + 1) + '"/>';
       $("#LeftHand").append(divString);
     } else {
-      divString = '<div class="Square Right captured' + (index - 7) + '"/>';
+      divString = '<div class="Square Right OffBoard captured' + (index - 7) + '"/>';
       $("#RightHand").append(divString);
     }
   }

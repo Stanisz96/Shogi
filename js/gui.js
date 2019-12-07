@@ -65,9 +65,22 @@ function SetInitialBoardPieces() {
   }
 
   // Pieces in hand
-  /*for (index = 0; index <= 15; index++) {
-
-  }*/
+  imageString = "";
+  for (index = 0; index <= 15; index++) {
+    if (GameBoard.capturedList[index] != 0) {
+      if (index <= 7) {
+        pieceFileName = "images/" + SideChar[PiecePlayer[index + 1]] + PieceChar[index + 1].toUpperCase();
+        pieceFileName += ".png";
+        imageString = '<image src="' + pieceFileName + '" class="Piece Lower ' + "captured" + (index + 1) + '"/>';
+        $("#RightHand").append(imageString);
+      } else {
+        pieceFileName = "images/" + SideChar[PiecePlayer[index + 7]] + PieceChar[index + 7].toUpperCase();
+        pieceFileName += ".png";
+        imageString = '<image src="' + pieceFileName + '" class="Piece Higher ' + "captured" + (16 - index) + '"/>';
+        $("#LeftHand").append(imageString);
+      }
+    }
+  }
 }
 
 function ClickedSquare(pageX, pageY) {
@@ -86,6 +99,13 @@ function ClickedSquare(pageX, pageY) {
   //console.log("POSITION: " + (pageX - workedX) + "," + (pageY - workedY));
   var sq = FR2SQ(file, rank);
   $(".Square.rank" + (rank + 1) + ".file" + (file + 1)).addClass("SqSelected");
+  if (HandSq.includes(sq, 9)) {
+    $(".Square.Left" + ".captured" + (9 - (HandSq.indexOf(sq) - 14))).addClass("SqSelected");
+    //console.log(".Square.Left" + ".captured" + (HandSq.indexOf(sq) - 14));
+  } else {
+    $(".Square.Right" + ".captured" + HandSq.indexOf(sq)).addClass("SqSelected");
+    //console.log(".Square.Right" + ".captured" + (HandSq.indexOf(sq) + 1));
+  }
   //console.log(".Square rank" + (rank + 1) + " file" + (file + 1));
   //console.log("Clicked sq: " + PrtSq(sq));
 
@@ -93,21 +113,71 @@ function ClickedSquare(pageX, pageY) {
 }
 
 $(document).on("click", ".Piece", function(e) {
-  //console.log("Piece Click");
-  if (UserMove.from == SQUARES.NO_SQ) {
-    UserMove.from = ClickedSquare(e.pageX, e.pageY);
+  /*if ($(this).is(".Lower")) {
+    if (UserMove.from == SQUARES.NO_SQ) {
+      UserMove.from = ClickedSquare(e.pageX, e.pageY);
+    } else {
+      UserMove.to = ClickedSquare(e.pageX, e.pageY);
+    }
+    DropPieceInHand();
+  } else if ($(this).is(".Higher")) {
+    if (UserMove.from == SQUARES.NO_SQ) {
+      UserMove.from = ClickedSquare(e.pageX, e.pageY);
+    }
+    console.log(UserMove.from);
+    DropPieceInHand();
   } else {
-    UserMove.to = ClickedSquare(e.pageX, e.pageY);
+    console.log("Piece Click");*/
+  console.log(UserMove.from);
+  if (HandSq.includes(UserMove.from) && UserMove.from != SQUARES.NO_SQ) {
+    if ($(this).is(".Lower")) {
+      /*if (UserMove.from == SQUARES.NO_SQ) {
+        UserMove.from = ClickedSquare(e.pageX, e.pageY);
+      } else {
+        UserMove.to = ClickedSquare(e.pageX, e.pageY);
+      }*/
+      DropPieceInHand();
+    } else if ($(this).is(".Higher")) {
+      if (UserMove.from == SQUARES.NO_SQ) {
+        UserMove.from = ClickedSquare(e.pageX, e.pageY);
+      }
+      console.log(UserMove.from);
+      DropPieceInHand();
+    }
+  } else {
+    if (UserMove.from == SQUARES.NO_SQ) {
+      UserMove.from = ClickedSquare(e.pageX, e.pageY);
+    } else {
+      UserMove.to = ClickedSquare(e.pageX, e.pageY);
+    }
+    MakeUserMove();
   }
-  MakeUserMove();
 });
 
 $(document).on("click", ".Square", function(e) {
-  //console.log("Square Click");
-  if (UserMove.from != SQUARES.NO_SQ) {
+  /*if ($(this).is(".Right")) {
+    if (UserMove.from != SQUARES.NO_SQ) {
+      UserMove.to = ClickedSquare(e.pageX, e.pageY);
+      DropPieceInHand();
+    }
+
+    //console.log("Right hand Click");
+    //console.log(ClickedSquare(e.pageX, e.pageY));
+  } else if ($(this).is(".Left")) {
+    console.log("Left hand Click");
+    console.log(ClickedSquare(e.pageX, e.pageY));
+  } else {
+    console.log("Board Click");*/
+  if (HandSq.includes(UserMove.from) && UserMove.from != SQUARES.NO_SQ) {
+    console.log("problem: " + UserMove.from);
+    UserMove.to = ClickedSquare(e.pageX, e.pageY);
+    DropPieceInHand();
+  } else if (UserMove.from != SQUARES.NO_SQ) {
+    console.log(UserMove.from);
     UserMove.to = ClickedSquare(e.pageX, e.pageY);
     MakeUserMove();
   }
+  //}
 });
 
 function MakeUserMove() {
@@ -117,24 +187,73 @@ function MakeUserMove() {
     var parsed = ParseMove(UserMove.from, UserMove.to);
     if (parsed != NOMOVE) {
       CheckBoard();
-      console.log(parsed.toString(2));
+      //console.log(parsed.toString(2));
       MakeMove(parsed);
       //console.log(MOVE(UserMove.from, UserMove.from + 11, PIECES.EMPTY, PIECES.EMPTY, MFLAG_AWA).toString(2));
       //console.log(GameBoard.promoted);
       UpdateInitialBoard();
 
       CheckAndSet();
-      //PreSearch();
-      //console.log(SearchController);
-      //console.log(SearchController);
+      //console.log(GameBoard.capturedList);
     }
 
     $(".Square.rank" + (RanksBrd[UserMove.from] + 1) + ".file" + (FilesBrd[UserMove.from] + 1)).removeClass("SqSelected");
     $(".Square.rank" + (RanksBrd[UserMove.to] + 1) + ".file" + (FilesBrd[UserMove.to] + 1)).removeClass("SqSelected");
-
+    if (HandSq.includes(UserMove.to)) {
+      if (HandSq.includes(UserMove.to, 9)) {
+        $(".Square.Left" + ".captured" + (9 - (HandSq.indexOf(UserMove.to) - 14))).removeClass("SqSelected");
+        //console.log(".Square.Left" + ".captured" + (HandSq.indexOf(sq) - 14));
+      } else {
+        $(".Square.Right" + ".captured" + HandSq.indexOf(UserMove.to)).removeClass("SqSelected");
+        //console.log(".Square.Right" + ".captured" + (HandSq.indexOf(UserMove.from) + 1));
+      }
+    }
     UserMove.from = SQUARES.NO_SQ;
     UserMove.to = SQUARES.NO_SQ;
-    PrintSqAttaced();
+    //PrintSqAttaced();
+  }
+}
+
+function DropPieceInHand() {
+  if (UserMove.from != SQUARES.NO_SQ && HandSq.includes(UserMove.to) == false) {
+    var parsed = ParseMove(UserMove.from, UserMove.to);
+    if (parsed != NOMOVE) {
+      CheckBoard();
+      //console.log(parsed.toString(2));
+      MakeMove(parsed);
+      //console.log(MOVE(UserMove.from, UserMove.from + 11, PIECES.EMPTY, PIECES.EMPTY, MFLAG_AWA).toString(2));
+      //console.log(GameBoard.promoted);
+      UpdateInitialBoard();
+
+      CheckAndSet();
+      //console.log(GameBoard.capturedList);
+    }
+
+    if (HandSq.includes(UserMove.from, 9)) {
+      $(".Square.Left" + ".captured" + (9 - (HandSq.indexOf(UserMove.from) - 14))).removeClass("SqSelected");
+      //console.log(".Square.Left" + ".captured" + (HandSq.indexOf(sq) - 14));
+    } else {
+      $(".Square.Right" + ".captured" + HandSq.indexOf(UserMove.from)).removeClass("SqSelected");
+      //console.log(".Square.Right" + ".captured" + (HandSq.indexOf(UserMove.from) + 1));
+    }
+    /* - - - - - */
+    $(".Square.rank" + (RanksBrd[UserMove.to] + 1) + ".file" + (FilesBrd[UserMove.to] + 1)).removeClass("SqSelected");
+
+    console.log("from: " + UserMove.from + " to: " + UserMove.to);
+    UserMove.from = SQUARES.NO_SQ;
+    UserMove.to = SQUARES.NO_SQ;
+    //console.log("from: " + UserMove.from + " to: " + UserMove.to + "\n");
+  } else if (HandSq.includes(UserMove.from) && HandSq.includes(UserMove.to)) {
+    console.log("NOMOVE: from: " + UserMove.from + " to: " + UserMove.to);
+    if (HandSq.includes(UserMove.from, 9)) {
+      $(".Square.Left" + ".captured" + (9 - (HandSq.indexOf(UserMove.from) - 14))).removeClass("SqSelected");
+      //console.log(".Square.Left" + ".captured" + (HandSq.indexOf(sq) - 14));
+    } else {
+      $(".Square.Right" + ".captured" + HandSq.indexOf(UserMove.from)).removeClass("SqSelected");
+      //console.log(".Square.Right" + ".captured" + (HandSq.indexOf(UserMove.from) + 1));
+    }
+    UserMove.from = UserMove.to;
+    UserMove.to = SQUARES.NO_SQ;
   }
 }
 

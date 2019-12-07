@@ -58,11 +58,28 @@ function MakeMove(move) {
   let captured = CAPTURED(move);
   if (captured != PIECES.EMPTY) {
     ClearPiece(to);
+    if (side == RANKED_PLAYER.LOWER) {
+      GameBoard.capturedList[DEGRADATION[captured] - 15]++;
+    } else {
+      GameBoard.capturedList[DEGRADATION[captured] + 7]++;
+    }
   }
   GameBoard.hisPlay++;
   GameBoard.ply++;
 
-  MovePiece(from, to);
+  let drop = DROP(move);
+  if (drop != PIECES.EMPTY) {
+    console.log("drop is going to be done");
+    AddPiece(to, drop);
+    //UpdateListMaterial();
+    if (GameBoard.side == RANKED_PLAYER.LOWER) {
+      GameBoard.capturedList[drop - 1]--;
+    } else {
+      GameBoard.capturedList[drop - 7]--;
+    }
+  } else {
+    MovePiece(from, to);
+  }
 
   let awakening = (move & MFLAG_AWA) >> 19;
   let promoted_piece = PROMOTION[GameBoard.pieces[to]];
@@ -106,10 +123,26 @@ function TakeMove() {
     ClearPiece(to);
     AddPiece(to, degraded_pieces);
   }
-  MovePiece(to, from);
+  let drop = DROP(move);
+  if (drop != PIECES.EMPTY) {
+    ClearPiece(to);
+    if (GameBoard.side == RANKED_PLAYER.LOWER) {
+      GameBoard.capturedList[drop - 1]++;
+    } else {
+      GameBoard.capturedList[drop - 7]++;
+    }
+  } else {
+    MovePiece(to, from);
+  }
+
   let captured = CAPTURED(move);
   if (captured != PIECES.EMPTY) {
     AddPiece(to, captured);
+    if (GameBoard.side == RANKED_PLAYER.LOWER) {
+      GameBoard.capturedList[DEGRADATION[captured] - 15]--;
+    } else {
+      GameBoard.capturedList[DEGRADATION[captured] + 7]--;
+    }
   }
 
   // if (PROMOTED(move) != PIECES.EMPTY) {
