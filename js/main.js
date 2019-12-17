@@ -39,10 +39,21 @@ function InitBoardSquares() {
   divString = "";
   for (index = 0; index <= 15; index++) {
     if (index <= 7) {
-      divString = '<div class="Square Left OffBoard captured' + (index + 1) + '"/>';
+      divString =
+        '<div class="Square Left OffBoard captured' +
+        (index + 1) +
+        '"><p class="LeftNumbers">' +
+        GameBoard.capturedList[index] +
+        "</p></div>";
       $("#LeftHand").append(divString);
+      $(".Square.Left").addClass("number");
     } else {
-      divString = '<div class="Square Right OffBoard captured' + (index - 7) + '"/>';
+      divString =
+        '<div class="Square Right OffBoard captured' +
+        (index - 7) +
+        '"><p class="RightNumbers">' +
+        GameBoard.capturedList[index] +
+        "</p></div>";
       $("#RightHand").append(divString);
     }
   }

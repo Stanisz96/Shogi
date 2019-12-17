@@ -66,19 +66,28 @@ function SetInitialBoardPieces() {
 
   // Pieces in hand
   imageString = "";
+  console.log(GameBoard.capturedList);
   for (index = 0; index <= 15; index++) {
-    if (GameBoard.capturedList[index] != 0) {
-      if (index <= 7) {
-        pieceFileName = "images/" + SideChar[PiecePlayer[index + 1]] + PieceChar[index + 1].toUpperCase();
-        pieceFileName += ".png";
-        imageString = '<image src="' + pieceFileName + '" class="Piece Lower ' + "captured" + (index + 1) + '"/>';
-        $("#RightHand").append(imageString);
-      } else {
-        pieceFileName = "images/" + SideChar[PiecePlayer[index + 7]] + PieceChar[index + 7].toUpperCase();
-        pieceFileName += ".png";
-        imageString = '<image src="' + pieceFileName + '" class="Piece Higher ' + "captured" + (16 - index) + '"/>';
-        $("#LeftHand").append(imageString);
-      }
+    if (index <= 7) {
+      pieceFileName = "images/" + SideChar[PiecePlayer[index + 1]] + PieceChar[index + 1].toUpperCase();
+      pieceFileName += ".png";
+      imageString = '<image src="' + pieceFileName + '" class="Piece Lower ' + "captured" + (index + 1) + '"/>';
+      $("#RightHand").append(imageString);
+      if (GameBoard.capturedList[index] != 0) $(".Piece.Lower.captured" + (index + 1)).css("opacity", 1);
+      else $(".Piece.Lower.captured" + (index + 1)).css("opacity", 0.3);
+      $(".captured" + (index + 1))
+        .children(".RightNumbers")
+        .text(GameBoard.capturedList[index]);
+    } else {
+      pieceFileName = "images/" + SideChar[PiecePlayer[index + 7]] + PieceChar[index + 7].toUpperCase();
+      pieceFileName += ".png";
+      imageString = '<image src="' + pieceFileName + '" class="Piece Higher ' + "captured" + (16 - index) + '"/>';
+      $("#LeftHand").append(imageString);
+      if (GameBoard.capturedList[index] != 0) $(".Piece.Higher.captured" + (16 - index)).css("opacity", 1);
+      else $(".Piece.Higher.captured" + (16 - index)).css("opacity", 0.3);
+      $(".captured" + (16 - index))
+        .children(".LeftNumbers")
+        .text(GameBoard.capturedList[index]);
     }
   }
 }
@@ -259,14 +268,57 @@ function DropPieceInHand() {
 
 function CheckResult() {
   GenerateMoves();
-
   var moveNum = 0;
   var found = 0;
+  var sq = 0;
+  var pieceCount = 0;
+  // No "dead end" minor pieces move or drop
+  if (GameBoard.side ^ (1 == RANKED_PLAYER.LOWER)) {
+    for (sq = 111; sq <= 119; sq++) {
+      if ([PIECES.gP, PIECES.gL, PIECES.gN].includes(GameBoard.pieces[sq])) {
+        $("#GameStatus").text("GAME OVER {lower player done illegal move}");
+        return BOOL.TRUE;
+      }
+    }
+  } else {
+    for (sq = 23; sq <= 31; sq++) {
+      if ([PIECES.oP, PIECES.oL, PIECES.oN].includes(GameBoard.pieces[sq])) {
+        $("#GameStatus").text("GAME OVER {higher player done illegal move}");
+        return BOOL.TRUE;
+      }
+    }
+  }
+  // No double  unpromoted pown
+  if (GameBoard.side ^ (1 == RANKED_PLAYER.LOWER)) {
+    for (file = 1; file <= 9; file++) {
+      pieceCount = 0;
+      for (rank = 1; rank <= 9; rank++) {
+        if (GameBoard.pieces[FR2SQ(file, rank)] == PIECES.gP) pieceCount++;
+        if (pieceCount > 1) {
+          $("#GameStatus").text("GAME OVER {lower player done illegal move}");
+          return BOOL.TRUE;
+        }
+      }
+    }
+  } else {
+    for (file = 1; file <= 9; file++) {
+      pieceCount = 0;
+      for (rank = 1; rank <= 9; rank++) {
+        if (GameBoard.pieces[FR2SQ(file, rank)] == PIECES.oP) pieceCount++;
+        if (pieceCount > 1) {
+          $("#GameStatus").text("GAME OVER {lower player done illegal move}");
+          return BOOL.TRUE;
+        }
+      }
+    }
+  }
+
   for (moveNum = GameBoard.moveListStart[GameBoard.ply]; moveNum < GameBoard.moveListStart[GameBoard.ply + 1]; ++moveNum) {
     //console.log("checkresult");
     if (MakeMove(GameBoard.moveList[moveNum]) == BOOL.FALSE) {
       continue;
     }
+    //console.log(GameBoard.moveList[moveNum]);
     found++;
     TakeMove();
     break;
@@ -285,9 +337,9 @@ function CheckResult() {
     }
   } else {
     $("#GameStatus").text("GAME DRAWN {stalemate}");
+    //console.log("LOOOl");
     return BOOL.TRUE;
   }
-
   return BOOL.FALSE;
 }
 

@@ -93,7 +93,7 @@ function AddPromotionMove(from, to, cap) {
 function AddDropMove(from, to, drop) {
   // rules when you cant drop
   //console.log("drop: " + drop.toString(2));
-  console.log("AddDropMove: " + MOVE(from, to, PIECES.EMPTY, drop, 0).toString(2));
+  //console.log("AddDropMove: " + MOVE(from, to, PIECES.EMPTY, drop, 0).toString(2));
   AddQuietMove(MOVE(from, to, PIECES.EMPTY, drop, 0));
 }
 
@@ -109,7 +109,7 @@ function GenerateMoves() {
       if (GameBoard.capturedList[index] != 0) {
         for (pieceSq = 0; pieceSq < 142; pieceSq++) {
           if (GameBoard.pieces[pieceSq] == PIECES.EMPTY) {
-            console.log("from: " + HandSq[index + 1] + " to: " + pieceSq + " droped: " + (index + 1));
+            //console.log("from: " + HandSq[index + 1] + " to: " + pieceSq + " droped: " + (index + 1));
             AddDropMove(HandSq[index + 1], pieceSq, index + 1);
             //$(".Square.rank" + (RanksBrd[pieceSq] + 1) + ".file" + (FilesBrd[pieceSq] + 1)).addClass("Red");
             //console.log("Drop: " + PieceChar[index + 1] + " on sq " + pieceSq);

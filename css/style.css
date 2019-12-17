@@ -180,6 +180,24 @@ div#EngineOutput button {
   top: -1px;
 }
 
+.RightNumbers {
+  margin: 1px;
+  text-align: right;
+  font-size: 1.2em;
+  font-weight: bolder;
+  opacity: 1;
+  color: rgb(49, 211, 122);
+}
+.LeftNumbers {
+  margin: 1px;
+  margin-top: 37px;
+  text-align: left;
+  font-size: 1.2em;
+  font-weight: bolder;
+  opacity: 1;
+  color: rgb(49, 211, 122);
+}
+
 .Left {
   border: solid 1px;
   left: -1px;
